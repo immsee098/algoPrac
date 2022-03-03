@@ -1,3 +1,3 @@
-function bottomConstruct(params) {
-    dun
+function bottomConstruct(n) {
+    
 }
