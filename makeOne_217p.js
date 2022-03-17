@@ -26,4 +26,4 @@ function makeOne(num) {
 }
 
 let array = new Array(num+1).fill(0);
-let count = 0
+let count = 0;
