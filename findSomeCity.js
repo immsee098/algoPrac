@@ -2,5 +2,7 @@
 function findSomeCity(n, k, x) {
     let count = 0;
     //bfs인듯
+
+
     
 }
