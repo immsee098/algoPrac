@@ -10,60 +10,18 @@ if(!$theme || !in_array($theme, $theme_dir))
 
 $info = get_theme_info($theme);
 
-$arr_mode = array('index', 'list', 'view');
-$mode = substr(strip_tags($_GET['mode']), 0, 20);
+$arr_mode = array('index', 'list', 'view', 'shop', 'ca_list', 'item');
+$mode = isset($_GET['mode']) ? substr(strip_tags($_GET['mode']), 0, 20) : '';
+
 if(!in_array($mode, $arr_mode))
     $mode = 'index';
 
-$qstr_index  = '&amp;mode=index';
-$qstr_list   = '&amp;mode=list';
-$qstr_view   = '&amp;mode=view';
-$qstr_device = '&amp;mode='.$mode.'&amp;device='.(G5_IS_MOBILE ? 'pc' : 'mobile');
+if((defined('G5_COMMUNITY_USE') && G5_COMMUNITY_USE === false) || $mode == 'shop' || $mode == 'ca_list' || $mode == 'item')
+    define('_SHOP_', true);
 
-$sql = " select bo_table, wr_parent from {$g5['board_new_table']} order by bn_id desc limit 1 ";
-$row = sql_fetch($sql);
-$bo_table = $row['bo_table'];
-$board = sql_fetch(" select * from {$g5['board_table']} where bo_table = '{$bo_table}' ");
-$write_table = $g5['write_prefix'] . $bo_table;
-
-// theme.config.php 미리보기 게시판 스킨이 설정돼 있다면
-$tconfig = get_theme_config_value($theme, 'set_default_skin, preview_board_skin, preview_mobile_board_skin');
-if($mode == 'list' || $mode == 'view') {
-    if($tconfig['preview_board_skin'])
-        $board['bo_skin'] = preg_match('#^theme/.+$#', $tconfig['preview_board_skin']) ? $tconfig['preview_board_skin'] : 'theme/'.$tconfig['preview_board_skin'];
-
-    if($tconfig['preview_mobile_board_skin'])
-        $board['bo_mobile_skin'] = preg_match('#^theme/.+$#', $tconfig['preview_mobile_board_skin']) ? $tconfig['preview_mobile_board_skin'] : 'theme/'.$tconfig['preview_mobile_board_skin'];
-}
-
-// 스킨경로
-if (G5_IS_MOBILE) {
-    $board_skin_path    = get_skin_path('board', $board['bo_mobile_skin']);
-    $board_skin_url     = get_skin_url('board', $board['bo_mobile_skin']);
-    $member_skin_path   = get_skin_path('member', $config['cf_mobile_member_skin']);
-    $member_skin_url    = get_skin_url('member', $config['cf_mobile_member_skin']);
-    $new_skin_path      = get_skin_path('new', $config['cf_mobile_new_skin']);
-    $new_skin_url       = get_skin_url('new', $config['cf_mobile_new_skin']);
-    $search_skin_path   = get_skin_path('search', $config['cf_mobile_search_skin']);
-    $search_skin_url    = get_skin_url('search', $config['cf_mobile_search_skin']);
-    $connect_skin_path  = get_skin_path('connect', $config['cf_mobile_connect_skin']);
-    $connect_skin_url   = get_skin_url('connect', $config['cf_mobile_connect_skin']);
-    $faq_skin_path      = get_skin_path('faq', $config['cf_mobile_faq_skin']);
-    $faq_skin_url       = get_skin_url('faq', $config['cf_mobile_faq_skin']);
-} else {
-    $board_skin_path    = get_skin_path('board', $board['bo_skin']);
-    $board_skin_url     = get_skin_url('board', $board['bo_skin']);
-    $member_skin_path   = get_skin_path('member', $config['cf_member_skin']);
-    $member_skin_url    = get_skin_url('member', $config['cf_member_skin']);
-    $new_skin_path      = get_skin_path('new', $config['cf_new_skin']);
-    $new_skin_url       = get_skin_url('new', $config['cf_new_skin']);
-    $search_skin_path   = get_skin_path('search', $config['cf_search_skin']);
-    $search_skin_url    = get_skin_url('search', $config['cf_search_skin']);
-    $connect_skin_path  = get_skin_path('connect', $config['cf_connect_skin']);
-    $connect_skin_url   = get_skin_url('connect', $config['cf_connect_skin']);
-    $faq_skin_path      = get_skin_path('faq', $config['cf_faq_skin']);
-    $faq_skin_url       = get_skin_url('faq', $config['cf_faq_skin']);
-}
+$qstr_index   = '&amp;mode=index';
+$qstr_list    = '&amp;mode=list';
+$qstr_view    = '&amp;mode=view';
 
 $conf = sql_fetch(" select cf_theme from {$g5['config_table']} ");
 $name = get_text($info['theme_name']);
@@ -88,9 +46,8 @@ require_once(G5_PATH.'/head.sub.php');
 <section id="preview_item">
     <ul>
         <li><a href="./theme_preview.php?theme=<?php echo $theme.$qstr_index; ?>">인덱스 화면</a></li>
-        <li><a href="./theme_preview.php?theme=<?php echo $theme.$qstr_list; ?>">게시글 리스트</a></li>
-        <li><a href="./theme_preview.php?theme=<?php echo $theme.$qstr_view; ?>">게시글 보기</a></li>
-        <li><a href="./theme_preview.php?theme=<?php echo $theme.$qstr_device; ?>"><?php echo (G5_IS_MOBILE ? 'PC 버전' : '모바일 버전'); ?></a></li>
+        <li><a href="./theme_preview.php?theme=<?php echo $theme.$qstr_list; ?>">멤버란</a></li>
+        <li><a href="./theme_preview.php?theme=<?php echo $theme.$qstr_view; ?>">프로필</a></li>
         <?php echo $btn_active; ?>
     </ul>
 </section>
@@ -99,15 +56,13 @@ require_once(G5_PATH.'/head.sub.php');
     <?php
     switch($mode) {
         case 'list':
-            include(G5_BBS_PATH.'/board.php');
+            include(G5_PATH.'/member/index.php');
             break;
         case 'view':
-            $wr_id = $row['wr_parent'];
-            $write = sql_fetch(" select * from {$write_table} where wr_id = '{$wr_id}' ");
-            include(G5_BBS_PATH.'/board.php');
+            include(G5_PATH.'/member/viewer.php');
             break;
         default:
-            include(G5_PATH.'/index.php');
+            include(G5_PATH.'/main.php');
             break;
     }
     ?>
@@ -115,4 +70,3 @@ require_once(G5_PATH.'/head.sub.php');
 
 <?php
 require_once(G5_PATH.'/tail.sub.php');
-?>

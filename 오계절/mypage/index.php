@@ -49,7 +49,6 @@ include_once('./_head.php');
 	</table>
 	<br />
 	<div class="txt-center">
-		<a href="<?php echo G5_BBS_URL; ?>/member_confirm.php?url=member_leave.php" class="ui-btn etc">탈퇴</a>
 		<a href="<?=G5_BBS_URL?>/member_confirm.php?url=register_form.php" class="ui-btn">정보수정</a>
 	</div>
 </section>
@@ -125,7 +124,10 @@ $write_pages = get_paging(G5_IS_MOBILE ? $config['cf_mobile_pages'] : $config['c
 
 echo $write_pages;
 ?>
-
+<hr class="padding" />
+<div class="txt-center">
+	<a href="<?php echo G5_BBS_URL; ?>/member_confirm.php?url=member_leave.php" class="ui-btn etc">탈퇴</a>
+</div>
 
 <?php
 include_once('./_tail.php');

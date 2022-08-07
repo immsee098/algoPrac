@@ -190,12 +190,6 @@ $frm_submit = '<div class="btn_confirm01 btn_confirm">
 							<option value="100% 100%"	<?=$de['background']['cs_etc_4'] == '100% 100%' ? "selected" : ""?>>늘이기</option>
 						</select>
 						&nbsp;&nbsp;
-
-						고정&nbsp;&nbsp;
-						<select name="cs_etc_5[2]">
-							<option value="">스크롤</option>
-							<option value="fixed"		<?=$de['background']['cs_etc_5'] == 'fixed' ? "selected" : ""?>>고정</option>
-						</select>
 					</td>
 				</tr>
 
@@ -324,12 +318,6 @@ $frm_submit = '<div class="btn_confirm01 btn_confirm">
 							<option value="100% 100%"	<?=$de['m_background']['cs_etc_4'] == '100% 100%' ? "selected" : ""?>>늘이기</option>
 						</select>
 						&nbsp;&nbsp;
-
-						고정&nbsp;&nbsp;
-						<select name="cs_etc_5[3]">
-							<option value="">스크롤</option>
-							<option value="fixed"		<?=$de['m_background']['cs_etc_5'] == 'fixed' ? "selected" : ""?>>고정</option>
-						</select>
 					</td>
 				</tr>
 
@@ -1680,13 +1668,13 @@ $frm_submit = '<div class="btn_confirm01 btn_confirm">
 
 				
 				<tr>
-					<th scope="row">
+					<th scope="row" rowspan="2">
 						입력폼
 					</th>
 					<td class="bo-right bo-left txt-center">
-						-
+						배경/폰트
 					</td>
-					<td class="bo-right">
+					<td class="bo-right" rowspan="2">
 						<input type="text" name="cs_name[29]" value="input_bak" readonly size="15"/>
 					</td>
 					<td>
@@ -1699,17 +1687,30 @@ $frm_submit = '<div class="btn_confirm01 btn_confirm">
 						라인색상&nbsp;&nbsp; <input type="text" name="cs_etc_2[29]" value="<?=$de['input_bak']['cs_etc_2']?>" size="10"/>
 						<i class="color-preview" style="background: <?=$de['input_bak']['cs_etc_2']?>;"></i>
 					</td>
+				</tr><tr>
+					<td class="bo-right txt-center">
+						모서리 라운드
+					</td>
+					<td>
+						좌측상단 <input type="text" name="cs_etc_3[29]" value="<?=$de['input_bak']['cs_etc_3']?>" size="3"/> px
+						&nbsp;&nbsp;
+						우측상단 <input type="text" name="cs_etc_4[29]" value="<?=$de['input_bak']['cs_etc_4']?>" size="3"/> px
+						&nbsp;&nbsp;
+						우측하단 <input type="text" name="cs_etc_5[29]" value="<?=$de['input_bak']['cs_etc_5']?>" size="3"/> px
+						&nbsp;&nbsp;
+						좌측하단 <input type="text" name="cs_etc_6[29]" value="<?=$de['input_bak']['cs_etc_6']?>" size="3"/> px
+					</td>
 				</tr>
 
 				
 				<tr>
-					<th scope="row">
+					<th scope="row" rowspan="2">
 						기본박스
 					</th>
 					<td class="bo-right bo-left txt-center">
-						-
+						배경/폰트
 					</td>
-					<td class="bo-right">
+					<td class="bo-right" rowspan="2">
 						<input type="text" name="cs_name[30]" value="box_style" readonly size="15"/>
 					</td>
 					<td>
@@ -1721,6 +1722,19 @@ $frm_submit = '<div class="btn_confirm01 btn_confirm">
 						&nbsp;&nbsp;
 						라인색상&nbsp;&nbsp; <input type="text" name="cs_etc_2[30]" value="<?=$de['box_style']['cs_etc_2']?>" size="10"/>
 						<i class="color-preview" style="background: <?=$de['box_style']['cs_etc_2']?>;"></i>
+					</td>
+				</tr><tr>
+					<td class="bo-right txt-center">
+						모서리 라운드
+					</td>
+					<td>
+						좌측상단 <input type="text" name="cs_etc_3[30]" value="<?=$de['box_style']['cs_etc_3']?>" size="3"/> px
+						&nbsp;&nbsp;
+						우측상단 <input type="text" name="cs_etc_4[30]" value="<?=$de['box_style']['cs_etc_4']?>" size="3"/> px
+						&nbsp;&nbsp;
+						우측하단 <input type="text" name="cs_etc_5[30]" value="<?=$de['box_style']['cs_etc_5']?>" size="3"/> px
+						&nbsp;&nbsp;
+						좌측하단 <input type="text" name="cs_etc_6[30]" value="<?=$de['box_style']['cs_etc_6']?>" size="3"/> px
 					</td>
 				</tr>
 
@@ -1762,7 +1776,7 @@ $frm_submit = '<div class="btn_confirm01 btn_confirm">
 						오버색상&nbsp;&nbsp; <input type="text" name="cs_etc_6[41]" value="<?=$de['sub_menu']['cs_etc_6']?>" size="10"/>
 						<i class="color-preview" style="background: <?=$de['sub_menu']['cs_etc_6']?>;"></i>
 					</td></tr><tr>
-					<td class="bo-right bo-left txt-center">
+					<td class="bo-right txt-center">
 						라인
 					</td>
 					<td>

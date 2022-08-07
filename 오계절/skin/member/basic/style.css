@@ -84,14 +84,7 @@
 	height: 200px;
 }
 
-#password_box h1	{
-	margin: 0;
-	height: auto;
-	padding: 10px;
-	font-size: 14px;
-	line-height: 1.1em;
-	width: 100%;
-}
+#password_box h1	{display:none;}
 #password_box h1 + .theme-box	{ border-top-width: 0; margin-bottom: 3px; }
 
 #password_box .pass-form	{ 

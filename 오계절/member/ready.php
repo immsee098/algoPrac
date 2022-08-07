@@ -14,8 +14,8 @@ for($i = 0; $row = sql_fetch_array($ar_result); $i++) {
 }
 
 /** 세력 정보 **/
+$ch_si = array();
 if($config['cf_side_title']) {
-	$ch_si = array();
 	$side_result = sql_query("select si_id, si_name from {$g5['side_table']}  order by si_id asc");
 	for($i=0; $row = sql_fetch_array($side_result); $i++) { 
 		$ch_si[$i]['name'] = $row['si_name'];
@@ -24,8 +24,8 @@ if($config['cf_side_title']) {
 }
 
 /** 종족 정보 **/
+$ch_cl = array();
 if($config['cf_class_title']) {
-	$ch_cl = array();
 	$class_result = sql_query("select cl_id, cl_name from {$g5['class_table']} order by cl_id asc");
 	for($i=0; $row = sql_fetch_array($class_result); $i++) { 
 		$ch_cl[$i]['name'] = $row['cl_name'];
@@ -98,12 +98,12 @@ $from_record = ($page - 1) * $page_rows; // 시작 열을 구함
 $sql = "select * $sql_common $sql_search $sql_order limit {$from_record}, $page_rows ";
 $rank_result = sql_query($sql);
 $write_pages = get_paging(G5_IS_MOBILE ? $config['cf_mobile_pages'] : $config['cf_write_pages'], $page, $total_page, './ready.php?s_class='.$s_class.'&s_side='.$s_side.'&sfl='.$sfl.'&stx='.$stx.'&page=');
-
-
-
-
 $side_link = "<li class='menu-first'><a href='".G5_URL."/member/ready.php'><span>ALL({$all_count})</span></a></li>";
 
+$character_list = array();
+for($i=0; $row=sql_fetch_array($rank_result); $i++) {
+	$character_list[] = $row;
+}
 
 for($i=0; $i < count($ch_si); $i++) { 
 	if($s_side == $ch_si[$i]['id']) { 
@@ -142,101 +142,14 @@ for($i=0; $i < count($ch_si); $i++) {
 	$side_link .= "</li>";
 }
 
+if(defined('G5_THEME_PATH') && is_file(G5_THEME_PATH."/member/ready_list.skin.php")) {
+	include(G5_THEME_PATH."/member/ready_list.skin.php");
+} else {
+	include(G5_PATH."/member/skin/ready_list.skin.php");
+}
 
-?>
-
-
-<nav id="submenu" class="scroll-fix">
-	<ul>
-		<?=$side_link?>
-	</ul>
-</nav>
-
-<div id="subpage">
-
-	<div class="searc-sub-box" style="padding: 10px 5px;">
-		<div class="ui-search-box">
-			<form name='frmSearch' method='get'>
-				<fieldset class="sch_category">
-					<select name="sfl">
-						<option value="mb_name" <?=$sfl == 'mb_name' ? "selected" : ""?>>오너명</option>
-						<option value="ch_name" <?=$sfl == 'ch_name' ? "selected" : ""?>>캐릭명</option>
-					<? if(count($ch_ar) > 0) { 
-						for($i=0; $i < count($ch_ar); $i++) { 
-					?>
-						<option value="arcode||<?=$ch_ar[$i]['ar_code']?>" <?=$sfl == 'arcode||'.$ch_ar[$i]['ar_code'] ? "selected" : ""?>><?=$ch_ar[$i]['ar_name']?></option>
-					<? } } ?>
-					</select>
-				</fieldset>
-				<fieldset class="sch_text">
-					<input type="text" name="stx" value="<?=$stx?>" />
-				</fieldset>
-				<fieldset class="sch_button">
-					<input type="submit" value="Search" class="ui-btn"/>
-				</fieldset>
-			</form>
-		</div>
-	</div>
-
-	<div class="ui-page txt-center">
-		<?=$write_pages?>
-	</div>
-
-	<ul class="ready-member-list">
-<?
-	for($i=0; $row=sql_fetch_array($rank_result); $i++) {
-?>
-		<li>
-			<div class="item theme-box">
-				<div class="ui-thumb">
-					<a href="./viewer.php?ch_id=<?=$row['ch_id']?>">
-						<? if($row['ch_thumb']) { ?>
-							<img src="<?=$row['ch_thumb']?>" />
-						<? } ?>
-					</a>
-				</div>
-				<div class="ui-profile">
-					<p class="name">
-						<a href="./viewer.php?ch_id=<?=$row['ch_id']?>">
-							<strong>[<?=$row['ch_state']?>] <?=$row['ch_name']?></strong>
-						</a>
-					</p>
-					<span>
-						<?
-							if($config['cf_side_title']) {
-								echo get_side_name($row['ch_side']);
-							}
-							if($config['cf_class_title']) { 
-								if($config['cf_side_title']) { echo " / "; }
-								echo get_class_name($row['ch_class']);
-							}
-						?>
-					</span>
-					<span class="owner">
-						<?=get_member_name($row['mb_id'])?>
-					</span>
-				</div>
-			</div>
-		</li>
-
-
-<?
-	}
-	if($i == 0) { 
-		echo "<li class='empty'>대기자가 없습니다.</li>";
-	}
-	unset($rank_result);
-	unset($row);
-?>
-	</ul>
-
-	<div class="ui-page">
-		<?=$write_pages?>
-	</div>
-
-</div>
-
-<?php
+unset($rank_result);
+unset($ch);
 include_once('./_tail.php');
 ?>
 

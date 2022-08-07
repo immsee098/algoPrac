@@ -15,9 +15,9 @@ for($i = 0; $row = sql_fetch_array($ar_result); $i++) {
 	$ch_ar[$i] = $row;
 }
 
+$status = array();
 if($ad['ad_use_status']) { 
 	// 스탯 정보 가져오기
-	$status = array();
 	$st_result = sql_query("select * from {$g5['status_config_table']} order by st_order asc");
 	for($i = 0; $row = sql_fetch_array($st_result); $i++) {
 		$status[$i] = $row;
@@ -26,8 +26,8 @@ if($ad['ad_use_status']) {
 
 
 /** 세력 정보 **/
+$ch_si = array();
 if($config['cf_side_title']) {
-	$ch_si = array();
 	$side_result = sql_query("select si_id, si_name from {$g5['side_table']} where si_auth <= '{$member['mb_level']}' order by si_id asc");
 	for($i=0; $row = sql_fetch_array($side_result); $i++) { 
 		$ch_si[$i]['name'] = $row['si_name'];
@@ -36,8 +36,8 @@ if($config['cf_side_title']) {
 }
 
 /** 종족 정보 **/
+$ch_cl = array();
 if($config['cf_class_title']) {
-	$ch_cl = array();
 	$class_result = sql_query("select cl_id, cl_name from {$g5['class_table']} where cl_auth <= '{$member['mb_level']}' order by cl_id asc");
 	for($i=0; $row = sql_fetch_array($class_result); $i++) { 
 		$ch_cl[$i]['name'] = $row['cl_name'];
@@ -58,12 +58,6 @@ if ($w == '') {
 		alert('존재하지 않는 캐릭터 자료 입니다.');
 
 	$html_title = '수정';
-
-	// 추가 항목 값 가져오기
-	$av_result = sql_query("select * from {$g5['value_table']} where ch_id = '{$ch['ch_id']}'");
-	for($i = 0; $row = sql_fetch_array($av_result); $i++) {
-		$ch['av_'.$row['ar_code']] = $row['av_value'];
-	}
 
 } else {
 	alert('제대로 된 값이 넘어오지 않았습니다.');
@@ -342,7 +336,6 @@ if($i == 0 ) { ?>
 		<caption><?php echo $g5['title']; ?></caption>
 		<colgroup>
 			<col style="width: 150px;">
-			<col style="width: 200px;">
 			<col>
 		</colgroup>
 		<tbody>
@@ -354,10 +347,24 @@ if($i == 0 ) { ?>
 				<input type="text" name="ch_name" value="<?php echo $ch['ch_name'] ?>" id="ch_name" >
 			</td>
 		</tr>
-<? } ?>
+<? }
+
+
+	// 추가 항목 값 가져오기
+	$av_result = sql_query("select * from {$g5['value_table']} where ch_id = '{$ch['ch_id']}'");
+	for($i = 0; $row = sql_fetch_array($av_result); $i++) {
+		$ch['av_'.$row['ar_code']] = $row['av_value'];
+	}
+
+
+?>
 <? for($i=0; $i < count($ch_ar); $i++) { 
 	$ar = $ch_ar[$i];
+
 	$key = 'av_'.$ar['ar_code'];
+
+	$ch[$key] = sql_fetch("select av_value from {$g5['value_table']} where ch_id = '{$ch_id}' and ar_code = '{$ar['ar_code']}' and ar_theme = '{$ar['ar_theme']}'");
+	$ch[$key] = $ch[$key]['av_value'];
 
 	$style = "";
 	if($ar['ar_size']) {
@@ -371,7 +378,9 @@ if($i == 0 ) { ?>
 ?>
 		<tr>
 			<th>
+				<input type="hidden" name="ar_theme[<?=$i?>]" value="<?=$ar['ar_theme']?>" />
 				<input type="hidden" name="ar_code[<?=$i?>]" value="<?=$ar['ar_code']?>" />
+				<? if($ar['ar_theme']) { echo "[{$ar['ar_theme']}]"; } ?>
 				<?=$ar['ar_name']?>
 			</th>
 			<?

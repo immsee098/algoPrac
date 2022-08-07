@@ -63,4 +63,51 @@ function get_space_status($ch_id) {
 
 	return $result;
 }
+
+//스탯 변동 적용
+function set_status($ch_id, $st_id, $hunt, $msg='') { 
+	global $g5; 
+
+	$result = array(); 
+	
+	$sl = sql_fetch("select st_id from {$g5['status_config_table']} where st_id = '{$st_id}'");
+	$sc = sql_fetch("select sc_id, sc_value, sc_max from {$g5['status_table']} where ch_id = '{$ch_id}' and st_id = '{$sl['st_id']}'");
+
+	$sc['sc_value'] = $sc['sc_value'] + $hunt; 
+
+	$message = ""; 
+
+	if($sc['sc_value'] >= $sc['sc_max']) { 
+		$message = $msg; 
+		$sc['sc_value'] = $sc['sc_max']; 
+	} else if($sc['sc_value'] < 0) { 
+		$sc['sc_value'] = 0; 
+	} 
+	sql_query(" update {$g5['status_table']} set sc_value = '{$sc['sc_value']}' where sc_id = '{$sc['sc_id']}'"); 
+
+	return $message; 
+
+}
+function set_status_by_name($ch_id, $st_name, $hunt, $msg='') { 
+	global $g5; 
+
+	$result = array(); 
+	
+	$sl = sql_fetch("select st_id from {$g5['status_config_table']} where st_name = '{$st_name}'");
+	$sc = sql_fetch("select sc_id, sc_value, sc_max from {$g5['status_table']} where ch_id = '{$ch_id}' and st_id = '{$sl['st_id']}'");
+
+	$sc['sc_value'] = $sc['sc_value'] + $hunt; 
+
+	$message = ""; 
+
+	if($sc['sc_value'] >= $sc['sc_max']) { 
+		$message = $msg; 
+		$sc['sc_value'] = $sc['sc_max']; 
+	} else if($sc['sc_value'] < 0) { 
+		$sc['sc_value'] = 0; 
+	} 
+	sql_query(" update {$g5['status_table']} set sc_value = '{$sc['sc_value']}' where sc_id = '{$sc['sc_id']}'"); 
+
+	return $message; 
+} 
 ?>

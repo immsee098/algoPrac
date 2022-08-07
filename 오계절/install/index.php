@@ -9,8 +9,6 @@ if ($exists_data_dir && $write_data_dir) {
     // 필수 모듈 체크
     require_once('./library.check.php');
 ?>
-<form action="./install_config.php" method="post" onsubmit="return frm_submit(this);">
-
 <div class="ins_inner">
     <p>
         <strong class="st_strong">라이센스(License) 내용을 반드시 확인하십시오.</strong><br>
@@ -29,18 +27,19 @@ if ($exists_data_dir && $write_data_dir) {
 	<div class="ins_ta ins_license">
         <textarea name="textarea" id="ins_license" readonly><?php echo implode('', file('./LICENSE.txt')); ?></textarea>
     </div>
+	<form action="./install_config.php" method="post" onsubmit="return frm_submit(this);">
+		<div id="ins_agree">
+			<label for="agree">동의합니다.</label>
+			<input type="checkbox" name="agree" value="동의함" id="agree">
+		</div>
 
-    <div id="ins_agree">
-        <label for="agree">동의합니다.</label>
-        <input type="checkbox" name="agree" value="동의함" id="agree">
-    </div>
-
-    <div class="inner_btn">
-        <input type="submit" value="다음">
-    </div>
+		<div class="inner_btn">
+			<input type="submit" value="다음">
+		</div>
+	</form>
 </div>
 
-</form>
+
 
 <script>
 function frm_submit(f)

@@ -93,6 +93,16 @@ $colspan = 10;
 <div class="tbl_head01 tbl_wrap">
     <table>
     <caption><?php echo $g5['title']; ?> 목록</caption>
+	<colgroup>
+		<col style="width:45px;" />
+		<col style="width:120px;" />
+		<col />
+		<col style="width:120px;" />
+		<col style="width:120px;" />
+		<col style="width:80px;" />
+		<col style="width:80px;" />
+		<col style="width:80px;" />
+	</colgroup>
     <thead>
     <tr>
         <th scope="col">
@@ -103,9 +113,7 @@ $colspan = 10;
         <th scope="col"><?php echo subject_sort_link('gr_subject') ?>제목</a></th>
         <th scope="col"><?php echo subject_sort_link('gr_admin') ?>그룹관리자</a></th>
         <th scope="col">게시판</th>
-        <th scope="col">접근<br>사용</th>
-        <th scope="col">접근<br>회원수</th>
-        <th scope="col"><?php echo subject_sort_link('gr_order') ?>출력<br>순서</a></th>
+        <th scope="col"><?php echo subject_sort_link('gr_order') ?>출력 순서</a></th>
         <th scope="col">접속기기</th>
         <th scope="col">관리</th>
     </tr>
@@ -130,35 +138,25 @@ $colspan = 10;
     <tr class="<?php echo $bg; ?>">
         <td class="td_chk">
             <input type="hidden" name="group_id[<?php echo $i ?>]" value="<?php echo $row['gr_id'] ?>">
-            <label for="chk_<?php echo $i; ?>" class="sound_only"><?php echo $row['gr_subject'] ?> 그룹</label>
             <input type="checkbox" name="chk[]" value="<?php echo $i ?>" id="chk_<?php echo $i ?>">
         </td>
         <td class="td_grid"><?php echo $row['gr_id'] ?></td>
         <td class="td_input">
-            <label for="gr_subject_<?php echo $i; ?>" class="sound_only">그룹제목</label>
-            <input type="text" name="gr_subject[<?php echo $i ?>]" value="<?php echo get_text($row['gr_subject']) ?>" id="gr_subject_<?php echo $i ?>" class="frm_input">
+            <input type="text" name="gr_subject[<?php echo $i ?>]" value="<?php echo get_text($row['gr_subject']) ?>" id="gr_subject_<?php echo $i ?>" class="frm_input full">
         </td>
         <td class="td_mng td_input">
         <?php if ($is_admin == 'super'){ ?>
-            <label for="gr_admin_<?php echo $i; ?>" class="sound_only">그룹관리자</label>
-            <input type="text" name="gr_admin[<?php echo $i ?>]" value="<?php echo $row['gr_admin'] ?>" id="gr_admin_<?php echo $i ?>" class="frm_input" size="10" maxlength="20">
+            <input type="text" name="gr_admin[<?php echo $i ?>]" value="<?php echo $row['gr_admin'] ?>" id="gr_admin_<?php echo $i ?>" class="frm_input full" size="10" maxlength="20">
         <?php }else{ ?>
             <input type="hidden" name="gr_admin[<?php echo $i ?>]" value="<?php echo $row['gr_admin'] ?>"><?php echo $row['gr_admin'] ?>
         <?php } ?>
         </td>
         <td class="td_numsmall"><a href="./board_list.php?sfl=a.gr_id&amp;stx=<?php echo $row['gr_id'] ?>"><?php echo $row2['cnt'] ?></a></td>
         <td class="td_chk">
-             <label for="gr_use_access_<?php echo $i; ?>" class="sound_only">접근회원 사용</label>
-            <input type="checkbox" name="gr_use_access[<?php echo $i ?>]" <?php echo $row['gr_use_access']?'checked':'' ?> value="1" id="gr_use_access_<?php echo $i ?>">
-        </td>
-        <td class="td_numsmall"><a href="./boardgroupmember_list.php?gr_id=<?php echo $row['gr_id'] ?>"><?php echo $row1['cnt'] ?></a></td>
-        <td class="td_chk">
-            <label for="gr_order_<?php echo $i; ?>" class="sound_only">메인메뉴 출력순서</label>
-            <input type="text" name="gr_order[<?php echo $i ?>]" value="<?php echo $row['gr_order'] ?>" id="gr_order_<?php echo $i ?>" class="frm_input" size="2">
+            <input type="text" name="gr_order[<?php echo $i ?>]" value="<?php echo $row['gr_order'] ?>" id="gr_order_<?php echo $i ?>" class="frm_input full" size="2">
         </td>
         <td class="td_mng">
-            <label for="gr_device_<?php echo $i; ?>" class="sound_only">접속기기</label>
-            <select name="gr_device[<?php echo $i ?>]" id="gr_device_<?php echo $i ?>">
+            <select name="gr_device[<?php echo $i ?>]" id="gr_device_<?php echo $i ?>" class="full">
                 <option value="both"<?php echo get_selected($row['gr_device'], 'both'); ?>>모두</option>
                 <option value="pc"<?php echo get_selected($row['gr_device'], 'pc'); ?>>PC</option>
                 <option value="mobile"<?php echo get_selected($row['gr_device'], 'mobile'); ?>>모바일</option>

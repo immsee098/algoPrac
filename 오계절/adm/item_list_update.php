@@ -21,8 +21,6 @@ if ($_POST['act_button'] == "선택수정") {
 					set it_category         = '{$_POST['it_category'][$k]}',
 						it_name             = '{$_POST['it_name'][$k]}',
 						it_sell             = '{$_POST['it_sell'][$k]}',
-						it_content          = '{$_POST['it_content'][$k]}',
-						it_content2         = '{$_POST['it_content2'][$k]}',
 						it_use_able         = '{$_POST['it_use_able'][$k]}',
 						it_use_mmb_able     = '{$_POST['it_use_mmb_able'][$k]}',
 						it_use_recepi		= '{$_POST['it_use_recepi'][$k]}',

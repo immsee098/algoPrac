@@ -156,12 +156,11 @@ if($w == '') {
 
 // --------------------- 추가 프로필 데이터
 // 추가 항목 값 가져오기
-$av_result = sql_query("select * from {$g5['value_table']} where ch_id = '{$ch_id}'");
-for($i = 0; $row = sql_fetch_array($av_result); $i++) {
-	$ch['av_'.$row['ar_code']] = $row['av_value'];
-}
 for($i=0; $i < count($ar_code); $i++) { 
 	$key = 'av_'.$ar_code[$i];
+
+	$prev_value = sql_fetch("select av_value from {$g5['value_table']} where ch_id = '{$ch_id}' and ar_code = '{$ar_code[$i]}' and ar_theme = '{$ar_theme[$i]}'");
+	$prev_value = $prev_value['av_value'];
 	
 	// 파일 등록일 경우, 이미지 업로드 처리
 	if ($_FILES['av_value_file']['name'][$i]) {
@@ -174,23 +173,24 @@ for($i=0; $i < count($ar_code); $i++) {
 		$av_value[$i] = $character_image_url."/".$image_name;
 	}
 
-	if($ch[$key] != $av_value[$i] && strstr(G5_URL, $ch[$key])) { 
+	if($prev_value != $av_value[$i] && strstr(G5_URL, $prev_value)) { 
 		// 해당 서버에 업로드 한 파일일 경우
-		$prev_file_path = str_replace(G5_URL, G5_PATH, $ch[$key]);
+		$prev_file_path = str_replace(G5_URL, G5_PATH, $prev_value);
 		@unlink($prev_file_path);
 	}
 	
 	$sql_article = "
 		ch_id		= '{$ch_id}',
 		ar_code		= '{$ar_code[$i]}',
+		ar_theme	= '{$ar_theme[$i]}',
 		av_value	= '{$av_value[$i]}'
 	";
 	
-	if(isset($ch[$key])) {
+	if(isset($prev_value)) {
 		// 업데이트
 		$sql = " update {$g5['value_table']}
 					set {$sql_article}
-					where ar_code = '{$ar_code[$i]}' and ch_id = '{$ch_id}'
+					where ar_code = '{$ar_code[$i]}' and ch_id = '{$ch_id}' and ar_theme = '{$ar_theme[$i]}'
 		";
 		sql_query($sql);
 	} else {

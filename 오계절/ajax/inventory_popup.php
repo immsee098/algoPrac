@@ -34,7 +34,7 @@ function fn_inven_link_event(idx, type) {
 	if(type == 'sell') { 
 		// 아이템 판매
 		$.ajax({
-			url:g5_url + '/mypage/inventory/sell_item.php'
+			url:g5_url + '/inventory/sell_item.php'
 			, data: formData
 			, processData: false
 			, contentType: false
@@ -55,7 +55,7 @@ function fn_inven_link_event(idx, type) {
 	} else if(type == 'use') { 
 		// 아이템 사용
 		$.ajax({
-			url:g5_url + '/mypage/inventory/use_item.php'
+			url:g5_url + '/inventory/use_item.php'
 			, data: formData
 			, processData: false
 			, contentType: false
@@ -76,7 +76,7 @@ function fn_inven_link_event(idx, type) {
 	} else if(type == 'take') { 
 		// 아이템 선물
 		$.ajax({
-			url:g5_url + '/mypage/inventory/send_item.php'
+			url:g5_url + '/inventory/send_item.php'
 			, data: formData
 			, processData: false
 			, contentType: false
@@ -91,7 +91,7 @@ function fn_inven_link_event(idx, type) {
 		});
 	} else {
 		$.ajax({
-			url:g5_url + '/mypage/inventory/detail_item.php'
+			url:g5_url + '/inventory/detail_item.php'
 			, data: formData
 			, processData: false
 			, contentType: false

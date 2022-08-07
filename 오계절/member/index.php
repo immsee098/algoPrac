@@ -1,70 +1,39 @@
 <?php
 include_once('./_common.php');
-include_once('./_head.php');
 
-add_stylesheet('<link rel="stylesheet" href="'.G5_CSS_URL.'/style.member.css">', 0);
+// 진영별로 출력하기
+$list = array();
+$side = array();
+$ch_list = array();
 
-$category_title = '';
-$sql_search = '';
-if($side) { 
-	$sql_search .= " and ch_side = '{$side}' ";
-	$category_title = get_side_name($side);
+if($config['cf_side_title']) {
+	$side_result = sql_query("select * from {$g5['side_table']}"); 
+	for($i=0; $si = sql_fetch_array($side_result); $i++) { 
+		$list[] = get_character_list($side['si_id']);
+		$side[] = $si;
+	}
+} 
+
+if(!$config['cf_side_title'] || count($side) < 2) {
+	$list = array();
+	$side = array();
+
+	$list[] = get_character_list();
+	$side[] = '';
 }
-if($class) { 
-	$sql_search .= " and ch_class = '{$class}' ";
-	$category_title = get_class_name($class);
+
+
+$g5['title'] = "멤버란";
+include_once(G5_PATH.'/head.php');
+
+if(defined('G5_THEME_PATH') && is_file(G5_THEME_PATH."/member/list.skin.php")) {
+	include(G5_THEME_PATH."/member/list.skin.php");
+} else {
+	include(G5_PATH."/member/skin/list.skin.php");
 }
-$sql_common = "select *
-			from	{$g5['character_table']}
-			where	ch_state = '승인'
-					{$sql_search}
-			order by ch_id asc";
 
-$result = sql_query($sql_common);
-?>
+unset($ch);
+unset($list);
 
-<div id="member_page">
-
-<? if($category_title) { ?>
-	<h2><?=$category_title?></h2>
-<? } ?>
-
-	<ul class="member-list">
-	<? for($i=0; $row=sql_fetch_array($result); $i++) { ?>
-		<li>
-			<div class="item">
-				<div class="ui-thumb">
-					<a href="./viewer.php?ch_id=<?=$row['ch_id']?>">
-						<? if($row['ch_thumb']) { ?>
-							<img src="<?=$row['ch_thumb']?>" />
-						<? } ?>
-					</a>
-				</div>
-				<div class="ui-profile">
-					<a href="<?=G5_BBS_URL?>/memo_form.php?me_recv_mb_id=<?=$row['mb_id']?>" class='send_memo'>
-						<strong><?=$row['ch_name']?></strong>
-					</a>
-				</div>
-			</div>
-		</li>
-	<?
-		}
-		if($i == 0) { 
-			echo "<li class='no-data'>등록된 멤버가 없습니다.</li>";
-		}
-		unset($row);
-	?>
-	</ul>
-</div>
-
-
-<script>
-$('.send_memo').on('click', function() {
-	var target = $(this).attr('href');
-	window.open(target, 'memo', "width=500, height=300");
-	return false;
-});
-</script>
-<?php
-include_once('./_tail.php');
+include_once(G5_PATH.'/tail.php');
 ?>

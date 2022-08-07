@@ -78,5 +78,26 @@ for($i=0; $i < count($cs_name); $i++) {
 
 
 
+// CSS 설정 파일 생성
+$css_data_path = G5_DATA_PATH."/css";
+$css_data_url = G5_DATA_URL."/css";
+
+@mkdir($css_data_path, G5_DIR_PERMISSION);
+@chmod($css_data_path, G5_DIR_PERMISSION);
+
+$file = '../'.G5_DATA_DIR.'/css/_design.config.css';
+$file_path = $css_data_path.'/_design.config.css';
+unlink($file_path);
+$f = @fopen($file, 'a');
+
+ob_start();
+include("./design_form_css.php");
+$css = ob_get_contents();
+ob_end_flush();
+fwrite($f,$css);
+fclose($f);
+@chmod($file, G5_FILE_PERMISSION);
+
+
 goto_url('./design_form.php', false);
 ?>

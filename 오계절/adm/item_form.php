@@ -91,7 +91,7 @@ $frm_submit .= '</div>';
 						기능종류
 					</td>
 					<td colspan="2">
-						<select name="it_type">
+						<select name="it_type" onchange="fn_type_chage(this);">
 						<? for($k =0; $k < count($category); $k++) { 
 							if(!$category[$k]) continue;
 						?>
@@ -111,6 +111,22 @@ $frm_submit .= '</div>';
 					</td>
 					<td>
 						<?php echo help("※ 적용값이 추가로 필요 할 시에만 기입해 주시길 바랍니다.") ?>
+						<span data-type="스탯" class="switch-obj" style="display:<?=strstr($item['it_type'], '스탯') ? "inline-block" : "none"?>;">
+							스탯 : 
+							<select name="st_id">
+								<option value="">지정하지 않음</option>
+								<?
+									$stat_sql = "select st_id, st_name from {$g5['status_config_table']} order by st_order asc";
+									$stat_list = sql_query($stat_sql);
+									for($i=0; $srow = sql_fetch_array($stat_list); $i++) {
+								?>
+									<option value="<?=$srow['st_id']?>" <?=$item['st_id'] == $srow['st_id'] ? "selected" : ""?>><?=$srow['st_name']?></option>
+								<? } ?>
+							</select>
+						</span>
+
+
+
 						<input type="text" name="it_value" value="<?php echo $item['it_value']; ?>" id="it_value" size="15">
 					</td>
 				</tr>
@@ -193,7 +209,7 @@ $frm_submit .= '</div>';
 						<label for="it_has">귀속성&nbsp;&nbsp;&nbsp;</label>
 
 						<input type="checkbox" name="it_use_ever" id="it_use_ever" value="1" <?=$item['it_use_ever']=='1' ? "checked" : ""?> />
-						<label for="it_has">영구성&nbsp;&nbsp;&nbsp;</label>
+						<label for="it_use_ever">영구성&nbsp;&nbsp;&nbsp;</label>
 
 						<input type="checkbox" name="it_use_able" id="it_use_able" value="1" <?=$item['it_use_able']=='1' ? "checked" : ""?> />
 						<label for="it_use_able">인벤 사용가능&nbsp;&nbsp;&nbsp;</label>
@@ -264,6 +280,25 @@ $frm_submit .= '</div>';
 function fitemform_submit(f)
 {
 	return true;
+}
+
+function fn_type_chage(obj) {
+	var target = obj.value;
+	$('.switch-obj').hide();
+	$('.switch-obj').find('select').val('');
+	$('.switch-obj').find('input').val('');
+
+	$('.switch-obj').each(function() {
+		var check = $(this).attr('data-type');
+		if(target.indexOf(check) < 0) {
+			// --
+		} else {
+			$(this).show();
+		}
+	});
+
+	
+	$('.switch-obj[data-type*="'+target+'"]').show();
 }
 
 </script>

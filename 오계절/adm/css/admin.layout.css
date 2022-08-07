@@ -12,7 +12,7 @@ body	{ height: 100%; }
 	position: relative;
 	width: 200px;
 	min-height: 100%;
-	background: #353942;
+	background: #1d1d1f;
 	vertical-align: top;
 }
 #header:after	{
@@ -115,7 +115,7 @@ body	{ height: 100%; }
 	height: 71px;
 	box-sizing: border-box;
 	border-bottom: 1px solid #131a24;
-	background: #353942;
+	background: #1d1d1f;
 }
 #page_top h2	{
 	position: absolute;

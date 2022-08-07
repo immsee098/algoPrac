@@ -189,7 +189,7 @@ if($w == '') {
 
 // --------------------- 추가 프로필 데이터
 // 추가 항목 값 가져오기
-$av_result = sql_query("select * from {$g5['value_table']} where ch_id = '{$ch_id}'");
+$av_result = sql_query("select * from {$g5['value_table']} where ch_id = '{$ch_id}' and ar_theme= '{$config['cf_theme']}'");
 for($i = 0; $row = sql_fetch_array($av_result); $i++) {
 	$ch['av_'.$row['ar_code']] = $row['av_value'];
 }
@@ -214,6 +214,7 @@ for($i=0; $i < count($ar_code); $i++) {
 	}
 	
 	$sql_article = "
+		ar_theme	= '{$ar_theme[$i]}',
 		ch_id		= '{$ch_id}',
 		ar_code		= '{$ar_code[$i]}',
 		av_value	= '{$av_value[$i]}'
@@ -223,7 +224,7 @@ for($i=0; $i < count($ar_code); $i++) {
 		// 업데이트
 		$sql = " update {$g5['value_table']}
 					set {$sql_article}
-					where ar_code = '{$ar_code[$i]}' and ch_id = '{$ch_id}'
+					where ar_code = '{$ar_code[$i]}' and ch_id = '{$ch_id}' and ar_theme = '{$config['cf_theme']}'
 		";
 		sql_query($sql);
 	} else {

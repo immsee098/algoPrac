@@ -13,7 +13,20 @@ if($in_id) {
 // -- 권한 설정에 따라 가져오기
 // -- 관리자 권한 제외 하고 가져온다.
 $ch_ar = array();
-$ar_result = sql_query("select * from {$g5['article_table']} where ar_secret != 'H' order by ar_order asc");
+$str_secret = ' where (1) ';
+
+if($member['mb_id'] == $mb['mb_id']) {
+	$str_secret .= " and ar_secret != 'H' ";
+} else {
+	$str_secret .= " and ar_secret = '' ";
+}
+if($config['cf_theme']) {
+	$str_secret .= " and ar_theme = '{$config['cf_theme']}' ";
+} else {
+	$str_secret .= " and ar_theme = '' ";
+}
+
+$ar_result = sql_query("select * from {$g5['article_table']} {$str_secret} order by ar_order asc");
 for($i = 0; $row = sql_fetch_array($ar_result); $i++) {
 	$ch_ar[$i] = $row;
 }
@@ -279,6 +292,7 @@ if($w == "") {
 			<tr>
 				<th>
 					<input type="hidden" name="ar_code[<?=$i?>]" value="<?=$ar['ar_code']?>" />
+					<input type="hidden" name="ar_theme[<?=$i?>]" value="<?=$config['cf_theme']?>" />
 					<?=$ar['ar_name']?>
 				</th>
 				<?

@@ -17,13 +17,8 @@ $log_type = $data_log[0];
 
 $item_log = explode("||", $item_log);
 
-if($log_type == 'S') { 
-	/** 탐색 로그 출력 **/
-	include($board_skin_path."/action/log.seeker.skin.php");
-}
-if($log_type == 'H') { 
-	/** 조합 로그 출력 **/
-	include($board_skin_path."/action/log.handmade.skin.php");
+if($log_type) { 
+	include($board_skin_path."/action/log.{$log_type}.skin.php");
 }
 
 

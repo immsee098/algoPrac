@@ -78,4 +78,40 @@ function get_character_info($ch_id, $ar_code)
 	return $ch['av_value'];
 }
 
+function get_character_list($side = '', $class = '', $state = '승인') {
+	global $g5;
+
+	$character = array();
+
+	$sql_search = '';
+	if($side) { 
+		$sql_search .= " and ch_side = '{$side}' ";
+	}
+	if($class) { 
+		$sql_search .= " and ch_class = '{$class}' ";
+	}
+
+	$sql_common = "select *
+			from	{$g5['character_table']}
+			where	ch_state = '{$state}'
+					{$sql_search}
+			order by ch_id asc";
+
+	$result = sql_query($sql_common);
+
+	for($i=0; $row=sql_fetch_array($result); $i++) {
+		$character[] = $row;
+	}
+
+	return $character;
+}
+
+
+// 테마 사용 시, 테마 전용으로 사용될 프로필 항목을 임의로 추가하기
+function add_profile_article($theme, $code, $name, $type='text', $pice = '', $help = '', $order = '') {
+	global $g5;
+
+
+}
+
 ?>

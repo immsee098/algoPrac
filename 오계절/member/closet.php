@@ -8,86 +8,53 @@ if(!$ch['ch_id']) {
 $g5['title'] = $ch['ch_name']." 옷장";
 
 include_once('./_head.sub.php');
-add_stylesheet('<link rel="stylesheet" href="'.G5_CSS_URL.'/style.closet.css">', 0);
+add_stylesheet('<link rel="stylesheet" href="'.G5_CSS_URL.'/closet.css">', 0);
 
 $cl = array();
 $cl_result = sql_query("select * from {$g5['closthes_table']} where ch_id = '{$ch_id}' order by cl_type desc, cl_id asc");
+$str_array_data = "";
+$array_data = "";
 for($i=0; $row=sql_fetch_array($cl_result); $i++) { 
 	$cl[$i] = $row;
+	$array_data .= "{$str_array_data}'{$row['cl_subject']}'";
+	$str_array_data = ",";
 }
 
 ?>
 
-<div id="closet_page">
-	<a href="#" id="open_header">열기</a>
-	<div class="closet-list">
-		<div class="inner">
-			<ul id="submenu">
-		<? for($i=0; $i < count($cl); $i++) { ?>
-				<li>
-					<a href="#<?=$i?>" data-index="<?=$i?>">
-						<span><?=$cl[$i]['cl_subject']?></span>
-					</a>
-				</li>
-		<? } ?>
-			</ul>
-		</div>
+<div id="closet_page" class="none-trans">
+	<div class="closet-menu theme-box">
+		<div class="pager"></div>
 	</div>
-	<a href="#" id="close_header">닫기</a>
 
-
-	<div id="closet_viewer">
-		<div class="flexslider">
-			<ul class="slides">
+	<div class="swiper-container">
+		<ul class="swiper-wrapper">
 	<? for($i=0; $i < count($cl); $i++) { ?>
-				<li>
-					<span>
-						<em><a href="<?=$cl[$i]['cl_path']?>" onclick="window.open(this.href, 'big_viewer', 'width=500 height=800 menubar=no status=no toolbar=no location=no scrollbars=yes resizable=yes'); return false;"><img src="<?=$cl[$i]['cl_path']?>" /></a></em>
-					</span>
-				</li>
+			<li class="swiper-slide">
+				<a href="<?=$cl[$i]['cl_path']?>" onclick="window.open(this.href, 'big_viewer', 'width=500 height=800 menubar=no status=no toolbar=no location=no scrollbars=yes resizable=yes'); return false;" style="background-image:url(<?=$cl[$i]['cl_path']?>);"></a>
+			</li>
 	<? } ?>
-			</ul>
-		</div>
+		</ul>
 	</div>
 </div>
 
-<script src="<?php echo G5_JS_URL ?>/jquery.flexslider.js"></script>
+<script src="<?php echo G5_JS_URL ?>/swiper.js"></script>
 <script>
+var cl_name = [<?=$array_data?>];
 $(function() {
-	$(window).load(function() {
-		$('.flexslider').flexslider({
-			animation: "slide",
-			pausePlay: true,
-			slideshowSpeed: 5000,
-			start: function() {
-				$('#closet_viewer').css('opacity', 1);
+	var swiper = new Swiper("#closet_page .swiper-container", {
+		loop:true,
+		pagination: {
+			el: "#closet_page .pager",
+			clickable: true,
+			renderBullet: function (index, className) {
+				return '<span class="' + className + '">' + cl_name[index] + "</span>";
 			}
-		});
-	});
-
-	var client_height  = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-	$('.flexslider .slides img').css('max-height', client_height + "px");
-
-	window.onresize= function() { 
-		var client_height  = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-		$('.flexslider .slides img').css('max-height', client_height + "px");
-	};
-
-	$('#submenu a').on('click', function() {
-		var index = $(this).data('index');
-		$('.flexslider').flexslider(index);
-		$('#submenu a').removeClass('on');
-		$(this).addClass('on');
-		return false;
-	});
-
-	$('#open_header').on('click', function() {
-		$('body').addClass('sub-on');
-		return false;
-	});
-	$('#close_header').on('click', function() {
-		$('body').removeClass('sub-on');
-		return false;
+		},
+		autoplay: {
+			delay: 4500,
+			disableOnInteraction: false,
+		},
 	});
 });
 </script>

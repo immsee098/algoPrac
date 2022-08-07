@@ -98,7 +98,7 @@ $download_point = 0;
 // config 테이블 설정
 $sql = " insert into `{$table_prefix}config`
             set cf_title = '".G5_VERSION."',
-                cf_theme = 'basic',
+                cf_theme = '',
                 cf_admin = '$admin_id',
                 cf_admin_email = '$admin_email',
                 cf_admin_email_name = '".G5_VERSION."',
@@ -168,8 +168,8 @@ $sql = " insert into `{$table_prefix}config`
 				cf_exp_name = '경험치',
 				cf_exp_pice = 'exp',
 				cf_rank_name = '랭킹',
-				cf_shop_category = '일반||프로필수정||기타',
-				cf_item_category = '일반||프로필수정||아이템추가||서브캐릭터추가'
+				cf_shop_category = '일반||이벤트',
+				cf_item_category = '일반||프로필수정||아이템추가||스탯회복'
                 ";
 sql_query($sql, true, $dblink);
 
@@ -182,11 +182,11 @@ sql_query($sql, true, $dblink);
 
 // 관리자 회원가입
 $sql = " insert into `{$table_prefix}member`
-            set mb_id = '$admin_id',
-                 mb_password = PASSWORD('$admin_pass'),
-                 mb_name = '$admin_name',
-                 mb_nick = '$admin_name',
-                 mb_email = '$admin_email',
+            set mb_id = '{$admin_id}',
+                 mb_password = '".get_encrypt_string($admin_pass)."',
+                 mb_name = '{$admin_name}',
+                 mb_nick = '{$admin_name}',
+                 mb_email = '{$admin_email}',
                  mb_level = '10',
                  mb_mailling = '1',
                  mb_open = '1',
@@ -196,10 +196,15 @@ $sql = " insert into `{$table_prefix}member`
                  ";
 sql_query($sql, true, $dblink);
 
-
+// 게시판 그룹 추가
+$sql = " insert into  `{$table_prefix}group`
+			set		gr_id = 'home',
+					gr_subject = 'HOME',
+					gr_device = 'both'";
+sql_query($sql, true, $dblink);
 
 // 디자인 설정 파일
-function g5_path()
+function g5_path_temp()
 {
     $result['path'] = str_replace('\\', '/', dirname(__FILE__));
     $tilde_remove = preg_replace('/^\/\~[^\/]+(.*)$/', '$1', $_SERVER['SCRIPT_NAME']);
@@ -216,7 +221,7 @@ function g5_path()
 	$result['url'] = str_replace("/install", "", $result['url']);
     return $result;
 }
-$g5_path = g5_path();
+$g5_path = g5_path_temp();
 $sql = " INSERT INTO `{$table_prefix}css_config` (`cs_id`, `cs_name`, `cs_value`, `cs_descript`, `cs_etc_1`, `cs_etc_2`, `cs_etc_3`, `cs_etc_4`, `cs_etc_5`, `cs_etc_6`, `cs_etc_7`, `cs_etc_8`, `cs_etc_9`, `cs_etc_10`) VALUES
 		(1, 'logo', '".$g5_path['url']."/adm/img/logo.png', '', '', '', '', '', '', '', '', '', '', ''),
 		(2, 'm_logo', '".$g5_path['url']."/adm/img/logo.png', '', '', '', '', '', '', '', '', '', '', ''),
@@ -400,7 +405,32 @@ EOD;
 fwrite($f, $str);
 fclose($f);
 //-------------------------------------------------------------------------------------------------
+
+
+// CSS 설정 파일 생성
+$css_data_path = $g5_path['path']."/css";
+$css_data_url = $g5_path['url']."/css";
+
+@mkdir($css_data_path, G5_DIR_PERMISSION);
+@chmod($css_data_path, G5_DIR_PERMISSION);
+
+$file = '../'.G5_CSS_DIR.'/_design.config.css';
+$file_path = $css_data_path.'/_design.config.css';
+@unlink($file_path);
+$f = @fopen($file, 'a');
 ?>
+<li style="display:none;">
+<?
+ob_start();
+include("../adm/design_form_css.php");
+$css = ob_get_contents();
+ob_end_flush();
+fwrite($f,$css);
+fclose($f);
+@chmod($file, G5_FILE_PERMISSION);
+
+?>
+</li>
     </ol>
 
     <p>축하합니다. <?php echo G5_VERSION ?> 설치가 완료되었습니다.</p>

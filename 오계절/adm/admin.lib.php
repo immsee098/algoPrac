@@ -120,6 +120,25 @@ function get_theme_dir()
     return $result_array;
 }
 
+// 테마디렉토리를 SELECT 형식으로 얻음
+function get_theme_select($id, $name, $selected='', $event='')
+{
+    global $config;
+
+    $theme = array();
+    $theme = array_merge($theme, get_theme_dir());
+
+    $str = "<select id=\"$id\" name=\"$name\" $event>\n";
+    for ($i=0; $i<count($theme); $i++) {
+        if ($i == 0) $str .= "<option value=\"\">-</option>";
+        $text = $theme[$i];
+
+        $str .= option_selected($theme[$i], $selected, $text);
+    }
+    $str .= "</select>";
+    return $str;
+}
+
 
 // 테마정보
 function get_theme_info($dir)
@@ -176,7 +195,7 @@ function get_theme_config_value($dir, $key='*')
     $tconfig = array();
 
     $theme_config_file = G5_PATH.'/'.G5_THEME_DIR.'/'.$dir.'/theme.config.php';
-    if(is_file) {
+    if(is_file($theme_config_file)) {
         include($theme_config_file);
 
         if($key == '*') {
@@ -184,13 +203,14 @@ function get_theme_config_value($dir, $key='*')
         } else {
             $keys = array_map('trim', explode(',', $key));
             foreach($keys as $v) {
-                $tconfig[$v] = trim($theme_config[$v]);
+                $tconfig[$v] = isset($theme_config[$v]) ? trim($theme_config[$v]) : '';
             }
         }
     }
 
     return $tconfig;
 }
+
 
 
 // 회원권한을 SELECT 형식으로 얻음

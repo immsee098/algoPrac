@@ -121,14 +121,7 @@ if($w != 'cu') {
 				// 아이템 획득에 성공한 경우, 해당 아이템을 인벤토리에 삽입
 				// 아이템 획득에 성공 시
 				$item_result['it_name'] = get_item_name($item_result['it_id']);
-				$inven_sql = " insert into {$g5['inventory_table']}
-						set ch_id = '{$character['ch_id']}',
-							it_id = '{$item_result['it_id']}',
-							it_name = '{$item_result['it_name']}',
-							ch_name = '{$character['ch_name']}'";
-				sql_query($inven_sql);
-				$in_id = mysql_insert_id();
-
+				insert_inventory($character['ch_id'], $item_result['it_id']);
 				$item_log = "S||".$it['it_id']."||".$it['it_name']."||".$item_result['it_id']."||".$item_result['it_name'];
 			} else { 
 				$item_log = "F||".$it['it_id']."||".$it['it_name'];
@@ -176,14 +169,7 @@ if($w != 'cu') {
 			if($item_result['it_id']) {
 				// 아이템 획득에 성공한 경우, 해당 아이템을 인벤토리에 삽입
 				// 아이템 획득에 성공 시
-				$inven_sql = " insert into {$g5['inventory_table']}
-						set ch_id = '{$character['ch_id']}',
-							it_id = '{$item_result['it_id']}',
-							it_name = '{$item_result['it_name']}',
-							ch_name = '{$character['ch_name']}'";
-				sql_query($inven_sql);
-				$in_id = mysql_insert_id();
-
+				insert_inventory($character['ch_id'], $item_result['it_id']);
 				$log = $action."||S||".$item_result['it_id']."||".$item_result['it_name']."||".$in_id;
 			} else { 
 				$log = $action."||F";
@@ -207,9 +193,9 @@ if($w != 'cu') {
 	//----------------------------------------------------------
 	if($action == 'H') { 
 		// 재료 정보 : make_1, make_2, make_3
-		$make_1 = sql_fetch("select inven.in_id, it.it_id, it.it_name, it.it_use_ever from {$g5['item_table']} it, {$g5['inventory_table']} inven where it.it_id = inven.it_id and inven.in_id = '{$make_1}'");
-		$make_2 = sql_fetch("select inven.in_id, it.it_id, it.it_name, it.it_use_ever from {$g5['item_table']} it, {$g5['inventory_table']} inven where it.it_id = inven.it_id and inven.in_id = '{$make_2}'");
-		$make_3 = sql_fetch("select inven.in_id, it.it_id, it.it_name, it.it_use_ever from {$g5['item_table']} it, {$g5['inventory_table']} inven where it.it_id = inven.it_id and inven.in_id = '{$make_3}'");
+		$make_1 = get_inventory_item($make_1);
+		$make_2 = get_inventory_item($make_2);
+		$make_3 = get_inventory_item($make_3);
 
 		$re_item[0] = $make_1['it_id'];
 		$re_item[1] = $make_2['it_id'];
@@ -224,15 +210,7 @@ if($w != 'cu') {
 		} else { 
 			// 레시피 조합 성공
 			$item = get_item($re['it_id']);
-
-			$inven_sql = " insert into {$g5['inventory_table']}
-						set ch_id = '{$character['ch_id']}',
-							it_id = '{$item['it_id']}',
-							it_name = '{$item['it_name']}',
-							ch_name = '{$character['ch_name']}'";
-			sql_query($inven_sql);
-			$in_id = mysql_insert_id();
-
+			insert_inventory($character['ch_id'], $item['it_id'], $item);
 			$log = $action."||S||".$re['it_id']."||".$item['it_name']."||".$in_id."||".$re_item_order;
 		}
 

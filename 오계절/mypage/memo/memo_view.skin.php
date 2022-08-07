@@ -2,8 +2,8 @@
 if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가 
 ?>
 
-<div class="ch-item <?=$class?>">
-	<div class="ui-thumb">
+<div class="message-item <?=$class?>">
+	<div class="thumb">
 	<? if($ch['ch_thumb']) {?>
 		<a href="<?=G5_URL?>/member/viewer.php?ch_id=<?=$ch['ch_id']?>">
 			<img src="<?=$ch['ch_thumb']?>" />

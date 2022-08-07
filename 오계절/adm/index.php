@@ -70,7 +70,32 @@ $colspan = 12;
 		</tbody>
 		</table>
 	</div>
+	<br />
+	<nav class="index-gnb">
+		<?php
+		$gnb_str = "<ul>";
+		foreach($amenu as $key=>$value) {
+			$href1 = $href2 = '';
+			if ($menu['menu'.$key][0][2]) {
+				$href1 = '<a href="'.$menu['menu'.$key][0][2].'" class="gnb_1da" data-text="'. $menu['menu'.$key][0][1].'">';
+				$href2 = '</a>';
+			} else {
+				continue;
+			}
+			$current_class = "";
+			if (isset($sub_menu) && (substr($sub_menu, 0, 3) == substr($menu['menu'.$key][0][0], 0, 3)))
+				$current_class = " gnb_1dli_air";
+			$gnb_str .= '<li class="gnb_1dli'.$current_class.'">'.PHP_EOL;
+			$gnb_str .=  $href1 . $menu['menu'.$key][0][1] . $href2;
+			$gnb_str .=  print_menu1('menu'.$key, 1);
+			$gnb_str .=  "</li>";
+		}
+		$gnb_str .= "</ul>";
+		echo $gnb_str;
+		?>
+	</nav>
 </section>
+
 
 <section>
 	<h2>신규가입회원 <?php echo $new_member_rows ?>건 목록</h2>

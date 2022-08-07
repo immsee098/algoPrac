@@ -162,8 +162,10 @@ if($character['ch_id'] && $character['ch_state'] == '승인') {
 	$msg = "<p style='color:red; padding-top:5px;'>부정사용 적발 시, 접근 차단이 될 수 있습니다.</p>";
 }
 
-?>
+if(defined('G5_THEME_PATH') && is_file(G5_THEME_PATH."/shop/shop.result.skin.php")) {
+	include(G5_THEME_PATH."/shop/shop.result.skin.php");
+} else {
+	include(G5_PATH."/shop/skin/shop.result.skin.php");
+}
 
-<div id="default_talk">
-	<p><?=$msg?></p>
-</div>
+?>

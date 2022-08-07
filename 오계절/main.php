@@ -1,6 +1,11 @@
 <?php
 include_once('./_common.php');
 define('_MAIN_', true);
+
+if(defined('G5_THEME_PATH')) {
+	require_once(G5_THEME_PATH.'/main.php');
+	return;
+}
 include_once(G5_PATH.'/head.php');
 add_stylesheet('<link rel="stylesheet" href="'.G5_CSS_URL.'/main.css">', 0);
 include_once(G5_PATH."/intro.php");
@@ -19,6 +24,10 @@ if($main_content) {
 			<? include(G5_PATH."/templete/txt.visual.php"); ?>
 		</div>
 
+        <div id="main_marquee">
+            <marquee><font color="white"> 마퀴태그 </font></marquee>
+        </div>
+
 		<div id="main_twitter_box" class="theme-box">
 			<? include(G5_PATH."/templete/txt.twitter.php"); ?>
 		</div>
@@ -34,12 +43,12 @@ if($main_content) {
 			<div id="main_banner_box" class="theme-box">
 				<img src="<?=G5_URL?>/adm/img/logo.png" alt="임시 메인 배너이미지" />
 				<p>AVOCADO EDITION</p>
-				<p><a href="http://bytheallspark.cafe24.com/" target="_blank">http://bytheallspark.cafe24.com/</a></p>
+				<p><a href="https://avocado-edition-rout.postype.com/" target="_blank">https://avocado-edition-rout.postype.com/</a></p>
 			</div>
 		</div>
 
 		<div id="main_copyright_box" class="theme-box txt-center">
-			COPYRIGHT &copy; 2017 by Avocado
+			COPYRIGHT &copy; 2021 by Avocado
 		</div>
 	</div>
 <?php } ?>

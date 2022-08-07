@@ -157,7 +157,6 @@ http://url-2
 
 
 <? }?>
-
 </ul>
 
 <? if($mb['mb_id'] == $member['mb_id']) { ?>

@@ -41,35 +41,37 @@ $write_page = get_paging(G5_IS_MOBILE ? $config['cf_mobile_pages'] : $config['cf
 		$ch = get_character($mb['ch_id']);
 
 ?>
-	<div class="ui-message">
-		<div class="ui-thumb">
+	<div class="message-item index you">
+		<div class="thumb">
 		<? if($ch['ch_thumb']){?>
 			<img src="<?=$ch['ch_thumb']?>" />
 		<? } ?>
 		</div>
-		<h3>
-			<strong><?=$mb['mb_name']?>&nbsp;</strong>
-		</h3>
-		<div class="info">
-			<span class="date">
-				<strong class="not-mo"><?=$me['me_send_datetime']?></strong>
-				<strong class="only-mo"><?=date('m-d H:i', strtotime($me['me_send_datetime']))?></strong>
-			</span>
-			<? if($me['me_read_datetime'] == '0000-00-00 00:00:00' && $me['me_send_mb_id'] != $member['mb_id']) { ?>
-			<i class="ico-new">N</i>
-			<? } ?>
-			<i class="ico-total ui-btn point">T</i>
-			<span class="total-text">
-				<?=$total?>
-			</span>
-		</div>
-		<div class="text no-link theme-box <? if($me['me_send_mb_id'] == $member['mb_id']) { ?> mine<? } ?>">
-			<a href="./memo_view.php?re_mb_id=<?=$row['mb_id']?>">
-				<? if($me['me_send_mb_id'] == $member['mb_id']) { ?>
-				ME ▶
+		<div class="detail theme-box">
+			<h3>
+				<strong><?=$mb['mb_name']?>&nbsp;</strong>
+			</h3>
+			<div class="info">
+				<span class="date">
+					<strong class="not-mo"><?=$me['me_send_datetime']?></strong>
+					<strong class="only-mo"><?=date('m-d H:i', strtotime($me['me_send_datetime']))?></strong>
+				</span>
+				<? if($me['me_read_datetime'] == '0000-00-00 00:00:00' && $me['me_send_mb_id'] != $member['mb_id']) { ?>
+				<i class="ico-new">N</i>
 				<? } ?>
-				<?php echo conv_subject($me['me_memo'], 120, '...'); ?>
-			</a>
+				<i class="ico-total ui-btn point">T</i>
+				<span class="total-text">
+					<?=$total?>
+				</span>
+			</div>
+			<div class="text no-link theme-box <? if($me['me_send_mb_id'] == $member['mb_id']) { ?> mine<? } ?>">
+				<a href="./memo_view.php?re_mb_id=<?=$row['mb_id']?>">
+					<? if($me['me_send_mb_id'] == $member['mb_id']) { ?>
+					ME ▶
+					<? } ?>
+					<?php echo conv_subject($me['me_memo'], 120, '...'); ?>
+				</a>
+			</div>
 		</div>
 	</div>
 <? } ?>

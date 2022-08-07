@@ -21,6 +21,8 @@ if ($stx) {
 
 if($cate) { $sql_search .= " and it_category = '{$cate}' "; }
 
+if($type) { $sql_search .= " and it_type = '{$type}' "; }
+
 if (!$sst) {
 	$sst  = "it_id";
 	$sod = "asc";
@@ -44,7 +46,7 @@ $listall = '<a href="'.$_SERVER['PHP_SELF'].'" class="ov_listall">전체목록</
 $g5['title'] = '아이템 관리';
 include_once('./admin.head.php');
 
-$colspan = 12;
+$colspan = 15;
 ?>
 
 <div class="local_ov01 local_ov">
@@ -59,6 +61,15 @@ $colspan = 12;
 	<option value="일반" <?=$cate == "일반" ? "selected" : ""?>>일반 아이템</option>
 	<option value="개인" <?=$cate == "개인" ? "selected" : ""?>>개인 아이템</option>
 	<option value="출석" <?=$cate == "출석" ? "selected" : ""?>>출석 아이템</option>
+</select>
+<select name="type">
+	<option value="">아이템 기능</option>
+<? for($k =0; $k < count($category); $k++) { 
+	if(!$category[$k]) continue;
+?>
+	<option value="<?=$category[$k]?>" <?=$type == $category[$k] ? "selected" : ""?>><?=$category[$k]?></option>
+<? } ?>
+	<option value="뽑기" <?=$type == "뽑기" ? "selected" : ""?>>뽑기</option>
 </select>
 
 
@@ -96,45 +107,45 @@ $colspan = 12;
 		<caption><?php echo $g5['title']; ?> 목록</caption>
 		<colgroup>
 			<col style="width:  40px;" />
+			<col style="width: 80px;" />
+			<col style="width: 120px;" />
 			<col style="width: 100px;" />
-			<col style="width: 100px;" />
-			<col style="width: 100px;" />
+
+			<col style="width: 60px;" />
 			<col />
 			
-			<col style="width: 70px;"/>
-			<col style="width: 70px;"/>
-			<col style="width: 70px;"/>
-			<col style="width: 70px;"/>
 
+			<col style="width: 50px;"/>
+			<col style="width: 50px;"/>
+			<col style="width: 50px;"/>
+			<col style="width: 50px;"/>
+			<col style="width: 70px;"/>
+			
+			<col style="width: 50px;"/>
 			<col style="width: 80px;"/>
-			<col style="width: 60px;"/>
-			<col style="width: 60px;"/>
+
+			<col style="width: 50px;"/>
 			<col style="width: 60px;"/>
 		</colgroup>
 		<thead>
 			<tr>
-				<th scope="col" rowspan="2" class="bo-right">
+				<th scope="col" class="bo-right">
 					<label for="chkall" class="sound_only">아이템 전체</label>
 					<input type="checkbox" name="chkall" value="1" id="chkall" onclick="check_all(this.form)">
 				</th>
-				<th scope="col" rowspan="2">분류</th>
-				<th scope="col" rowspan="2">기능</th>
-				<th scope="col" rowspan="2">이미지</th>
-				<th scope="col" class="bo-left bo-no-bottom bo-right">아이템 이름</th>
+				<th scope="col">분류</th>
+				<th scope="col" colspan="2">기능</th>
 
-				<th scope="col" rowspan="2">귀속</th>
-				<th scope="col" rowspan="2">영구</th>
-				<th scope="col" rowspan="2">인벤</th>
-				<th scope="col" rowspan="2">자비</th>
-				<th scope="col" rowspan="2">레시피</th>
+				<th scope="col" colspan="2">아이템</th>
 
-				<th scope="col" rowspan="2">되팔기</th>
-				<th scope="col" rowspan="2">사용</th>
-				<th scope="col" rowspan="2">관리</th>
-			</tr>
-			<tr>
-				<!--th scope="col" class="bo-right">적용값</th-->
-				<th scope="col" class="bo-left">설명</th>
+				<th scope="col">귀속</th>
+				<th scope="col">영구</th>
+				<th scope="col">인벤</th>
+				<th scope="col">자비</th>
+				<th scope="col">레시피</th>
+				<th scope="col" colspan="2">되팔기</th>
+				<th scope="col">사용</th>
+				<th scope="col">관리</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -145,20 +156,20 @@ $colspan = 12;
 			?>
 
 			<tr class="<?php echo $bg; ?>">
-				<td rowspan="2">
+				<td>
 					<label for="chk_<?php echo $i; ?>" class="sound_only"><?php echo get_text($item['it_name']) ?></label>
 					<input type="checkbox" name="chk[]" value="<?php echo $i ?>" id="chk_<?php echo $i ?>">
 					<input type="hidden" name="it_id[<?php echo $i ?>]" value="<?php echo $item['it_id'] ?>" />
 				</td>
-				<td rowspan="2">
-					<select name="it_category[<?php echo $i ?>]" id="it_category_<?php echo $i ?>" style="display: block;">
-						<option value="일반" <?=$item['it_category'] == "일반" ? "selected" : ""?>>일반 아이템</option>
-						<option value="개인" <?=$item['it_category'] == "개인" ? "selected" : ""?>>개인 아이템</option>
-						<option value="출석" <?=$item['it_category'] == "출석" ? "selected" : ""?>>출석 아이템</option>
+				<td>
+					<select name="it_category[<?php echo $i ?>]" id="it_category_<?php echo $i ?>" style="display: block; width:100%;">
+						<option value="일반" <?=$item['it_category'] == "일반" ? "selected" : ""?>>일반</option>
+						<option value="개인" <?=$item['it_category'] == "개인" ? "selected" : ""?>>개인</option>
+						<option value="출석" <?=$item['it_category'] == "출석" ? "selected" : ""?>>출석</option>
 					</select>
 				</td>
-				<td rowspan="2">
-					<select name="it_type[<?php echo $i ?>]" style="width: 80px;">
+				<td>
+					<select name="it_type[<?php echo $i ?>]" style="width:100%;">
 						<? for($k =0; $k < count($category); $k++) { 
 							if(!$category[$k]) continue;
 						?>
@@ -167,54 +178,50 @@ $colspan = 12;
 							<option value="뽑기" <?=$item['it_type'] == "뽑기" ? "selected" : ""?>>뽑기 아이템</option>
 					</select>
 				</td>
-				<td rowspan="2" class="txt-center">
+				<td>
+					<input type="text" name="it_value[<?php echo $i ?>]" value="<?php echo get_text($item['it_value']) ?>" id="it_value_<?php echo $i ?>" size="8">
+				</td>
+
+				<td class="txt-center">
 				<? if($item['it_img']) { ?>
-					<img src="<?=$item['it_img']?>" style="max-width: 50px;"/>
+					<img src="<?=$item['it_img']?>" style="max-width: 40px;"/>
 				<? } else { ?>
 					이미지없음
 				<? } ?>
 				</td>
 				<td class="txt-left">
-					<input type="text" name="it_name[<?php echo $i ?>]" value="<?php echo get_text($item['it_name']) ?>" id="it_name_<?php echo $i ?>" size="20">
+					<input type="text" name="it_name[<?php echo $i ?>]" value="<?php echo get_text($item['it_name']) ?>" id="it_name_<?php echo $i ?>" size="20" style="width:100%;">
 				</td>
 				
-				<td rowspan="2">
+				<td>
 					<input type="checkbox" name="it_has[<?php echo $i ?>]" value="1" id="it_has_<?php echo $i ?>" <?php echo $item['it_has']?"checked":"" ?>>
 				</td>
-				<td rowspan="2">
+				<td>
 					<input type="checkbox" name="it_use_ever[<?php echo $i ?>]" value="1" id="it_use_ever_<?php echo $i ?>" <?php echo $item['it_use_ever']?"checked":"" ?>>
 				</td>
-				<td rowspan="2">
+				<td>
 					<input type="checkbox" name="it_use_able[<?php echo $i ?>]" value="1" id="it_use_able_<?php echo $i ?>" <?php echo $item['it_use_able']?"checked":"" ?>>
 				</td>
-				<td rowspan="2">
+				<td>
 					<input type="checkbox" name="it_use_mmb_able[<?php echo $i ?>]" value="1" id="it_use_mmb_able_<?php echo $i ?>" <?php echo $item['it_use_mmb_able']?"checked":"" ?>>
 				</td>
-				<td rowspan="2">
+				<td>
 					<input type="checkbox" name="it_use_recepi[<?php echo $i ?>]" value="1" id="it_use_recepi_<?php echo $i ?>" <?php echo $item['it_use_recepi']?"checked":"" ?>>
 				</td>
 
 				<td>
 					<input type="checkbox" name="it_use_sell[<?php echo $i ?>]" value="1" id="it_use_sell_<?php echo $i ?>" <?php echo $item['it_use_sell']?"checked":"" ?>>
 				</td>
-				<td rowspan="2">
-					<input type="checkbox" name="it_use[<?php echo $i ?>]" value="Y" id="it_use_<?php echo $i ?>" <?php echo $item['it_use']?"checked":"" ?>>
-				</td>
-				<td rowspan="2" class="td_mngsmall">
-					<?php echo $one_update ?>
-					<?php echo $one_copy ?>
-				</td>
-			</tr>
-			<tr class="<?php echo $bg; ?>">
-				<!-- td>
-					<input type="text" name="it_value[<?php echo $i ?>]" value="<?php echo get_text($item['it_value']) ?>" id="it_value_<?php echo $i ?>" size="8">
-				</td -->
-				<td class="txt-left bo-no-left">
-					<input type="text" name="it_content[<?php echo $i ?>]" value="<?php echo get_text($item['it_content']) ?>" id="it_content_<?php echo $i ?>" size="40">
-					<input type="text" name="it_content2[<?php echo $i ?>]" value="<?php echo get_text($item['it_content2']) ?>" id="it_content2_<?php echo $i ?>" size="40">
-				</td>
 				<td>
 					<input type="text" name="it_sell[<?php echo $i ?>]" value="<?php echo get_text($item['it_sell']) ?>" id="it_sell_<?php echo $i ?>" size="5">
+				</td>
+
+				<td>
+					<input type="checkbox" name="it_use[<?php echo $i ?>]" value="Y" id="it_use_<?php echo $i ?>" <?php echo $item['it_use']?"checked":"" ?>>
+				</td>
+				<td class="td_mngsmall">
+					<?php echo $one_update ?>
+					<?php echo $one_copy ?>
 				</td>
 			</tr>
 			<?php
@@ -235,7 +242,7 @@ $colspan = 12;
 
 </form>
 
-<?php echo get_paging(G5_IS_MOBILE ? $config['cf_mobile_pages'] : $config['cf_write_pages'], $page, $total_page, $_SERVER['PHP_SELF'].'?'.$qstr.'&amp;cate='.$cate.'&amp;cate2='.$cate2.'&amp;map_id='.$map_id.'&amp;page='); ?>
+<?php echo get_paging(G5_IS_MOBILE ? $config['cf_mobile_pages'] : $config['cf_write_pages'], $page, $total_page, $_SERVER['PHP_SELF'].'?'.$qstr.'&amp;type='.$type.'&amp;cate='.$cate.'&amp;cate2='.$cate2.'&amp;map_id='.$map_id.'&amp;page='); ?>
 
 <script>
 function fitemlist_submit(f)

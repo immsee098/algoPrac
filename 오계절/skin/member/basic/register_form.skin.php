@@ -75,19 +75,6 @@ add_stylesheet('<link rel="stylesheet" href="'.$member_skin_url.'/style.css">', 
 							<input type="text" name="mb_birth" value="<?php echo isset($member['mb_birth'])?$member['mb_birth']:''; ?>" required class="frm_input required" size="5" maxlength="100">
 						</td>
 					</tr>
-					<tr>
-						<th scope="row">E-mail</th>
-						<td>
-							<?php if ($config['cf_use_email_certify']) {  ?>
-							<span class="frm_info">
-								<?php if ($w=='') { echo "E-mail 로 발송된 내용을 확인한 후 인증하셔야 회원가입이 완료됩니다."; }  ?>
-								<?php if ($w=='u') { echo "E-mail 주소를 변경하시면 다시 인증하셔야 합니다."; }  ?>
-							</span>
-							<?php }  ?>
-							<input type="hidden" name="old_email" value="<?php echo $member['mb_email'] ?>">
-							<input type="text" name="mb_email" value="<?php echo isset($member['mb_email'])?$member['mb_email']:''; ?>" id="reg_mb_email" required class="frm_input email required full" maxlength="100">
-						</td>
-					</tr>
 				</tbody>
 			</table>
 	

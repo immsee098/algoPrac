@@ -25,6 +25,7 @@ $from_record = ($page - 1) * $rows; // 시작 열을 구함
 $sql = " select a.*, b.bo_subject {$sql_common} {$sql_order} limit {$from_record}, {$rows} ";
 $result = sql_query($sql);
 
+$list = array();
 
 for ($i=0; $row=sql_fetch_array($result); $i++) {
 	$tmp_write_table = $g5['write_prefix'].$row['bo_table'];

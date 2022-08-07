@@ -3,8 +3,6 @@ include_once('./_common.php');
 $g5['title'] = "상점";
 include_once('./_head.php');
 
-add_stylesheet('<link rel="stylesheet" href="'.G5_CSS_URL.'/style.shop.css">', 0);
-
 // 상점 카테고리 정보
 $shop_cate = explode("||", $config['cf_shop_category']);
 
@@ -55,52 +53,20 @@ $write_pages = get_paging(5, $page, $total_page, './index.php?cate='.$cate.$qstr
 
 $shop_sql = " select * {$sql_common} {$sql_search} {$sql_order} {$sql_limit} ";
 $shop_result = sql_query($shop_sql);
+$shop_list = array();
 
+for($i = 0; $shop = sql_fetch_array($shop_result); $i++) { 
+	$shop_list[$i] = $shop;
+	$shop_list[$i]['item'] = get_item($shop['it_id']);
+}
+
+
+if(defined('G5_THEME_PATH') && is_file(G5_THEME_PATH."/shop/shop.skin.php")) {
+	include(G5_THEME_PATH."/shop/shop.skin.php");
+} else {
+	include(G5_PATH."/shop/skin/shop.skin.php");
+}
 ?>
-
-
-<div id="shop_page">
-	<div id="shop_npc">
-		<img src="<?=G5_IMG_URL?>/shop/npc.png" />
-	</div>
-
-	<div id="item_info">
-		<div id="default_talk"></div>
-	</div>
-
-	<div id="item_list_box">
-		<div id="shop_cate" class="ajax-link">
-			<ul>
-			<? for($i = 0; $i < count($shop_cate); $i++) { ?>
-				<li>
-					<a href="?cate=<?=$shop_cate[$i]?>" class='ui-btn <?=$cate == $shop_cate[$i] ? 'point' : ''?>'><?=$shop_cate[$i]?></a>
-				</li>
-			<? } ?>
-			</ul>
-		</div>
-
-		<div id="shop_item_list">
-			<ul>
-		<? for($i = 0; $shop = sql_fetch_array($shop_result); $i++) { 
-			$item = get_item($shop['it_id']);
-		?>
-				<li>
-					<a href="javascript:view_shop_item('<?=$shop['sh_id']?>');">
-						<img src="<?=$item['it_img']?>" />
-						<span><?=$item['it_name']?></span>
-					</a>
-				</li>
-		<? } ?>
-			</ul>
-
-			<div id="shop_paging" class="ajax-link">
-				<?=$write_pages?>
-			</div>
-		</div>
-	</div>
-
-</div>
-
 
 <script>
 function view_shop_item(shop_idx) {
@@ -113,6 +79,7 @@ function view_shop_item(shop_idx) {
 			// Toss
 			var response = data;
 			$('#item_info').empty().append(response);
+			view_shop_item_complete();
 		}
 		, error: function(data, status, err) {
 			$('#item_info').empty();
@@ -133,6 +100,7 @@ function fn_buy_item(shop_idx){
 			// Toss
 			var response = data;
 			$('#item_info').empty().append(response);
+			view_shop_item_buy();
 		}
 		, error: function(data, status, err) {
 			$('#item_info').empty();
@@ -186,7 +154,7 @@ function ajax_shop_link_url(url, obj_id) {
 }
 </script>
 
-<?php
+<?
 include_once('./_tail.php');
 ?>
 

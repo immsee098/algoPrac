@@ -77,7 +77,7 @@ if($profile['ad_id']) {
 // 추가 프로필 양식 수정
 for($i=0; $i < count($ar_id); $i++) {
 	
-	$ar = sql_fetch(" select ar_code from {$g5['article_table']} where ar_id = '{$ar_id[$i]}'");
+	$ar = sql_fetch(" select ar_code from {$g5['article_table']} where ar_id = '{$ar_id[$i]}' and ar_theme= '{$ar_theme[$i]}");
 
 	if($ar_code[$i] == '') { 
 		
@@ -106,6 +106,7 @@ for($i=0; $i < count($ar_id); $i++) {
 		//  업데이트
 		$sql = " update {$g5['article_table']}
 				set ar_code = '{$ar_code[$i]}',
+					ar_theme = '{$ar_theme[$i]}',
 					ar_name = '{$ar_name[$i]}',
 					ar_type = '{$ar_type[$i]}',
 					ar_size = '{$ar_size[$i]}',

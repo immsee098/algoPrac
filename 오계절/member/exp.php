@@ -7,7 +7,7 @@ if(!$ch['ch_id']) alert_close("캐릭터 정보를 확인할 수 없습니다.")
 $g5['title'] = $ch['ch_name']." ".$config['cf_exp_name']." 획득 내역";
 include_once('./_head.sub.php');
 
-add_stylesheet('<link rel="stylesheet" href="'.G5_CSS_URL.'/style.exp.css">', 0);
+add_stylesheet('<link rel="stylesheet" href="'.G5_CSS_URL.'/exp.css">', 0);
 
 $list = array();
 $sql_common = " from {$g5['exp_table']} where ch_id = '{$ch['ch_id']}' ";

@@ -2,7 +2,14 @@
 // 이 파일은 새로운 파일 생성시 반드시 포함되어야 함
 if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
 check_site_auth($is_member);
-$begin_time = get_microtime();
+
+// 테마 head.sub.php 파일
+if(!defined('G5_IS_ADMIN') && defined('G5_THEME_PATH') && is_file(G5_THEME_PATH.'/head.sub.php')) {
+    require_once(G5_THEME_PATH.'/head.sub.php');
+    return;
+}
+
+$g5_debug['php']['begin_time'] = $begin_time = get_microtime();
 
 if (!isset($g5['title'])) {
     $g5['title'] = $config['cf_title'];
@@ -70,7 +77,7 @@ if (defined('G5_IS_ADMIN')) {
 } else {
 	echo '<link rel="stylesheet" href="'.G5_CSS_URL.'/default.css" type="text/css">'.PHP_EOL;
 	if(!$config['cf_7']) { 
-		echo '<link rel="stylesheet" href="'.G5_CSS_URL.'/_manager.css.php" type="text/css" />';
+		echo '<link rel="stylesheet" href="'.G5_DATA_URL.'/css/_design.config.css" type="text/css" />';
 	}
 	echo '<link rel="stylesheet" href="'.G5_CSS_URL.'/style.css" type="text/css">'.PHP_EOL;
 }
@@ -119,10 +126,6 @@ if(!defined('G5_IS_ADMIN'))
     echo $config['cf_add_script'];
 ?>
 
-<?php
-if(!defined('G5_IS_ADMIN'))
-	echo $config['cf_add_script'];
-?>
 <script>
 if(!parent || parent==this) $('html').addClass('single'); 
 </script>

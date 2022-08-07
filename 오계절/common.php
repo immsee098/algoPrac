@@ -679,6 +679,24 @@ if(!empty($extend_file) && is_array($extend_file)) {
 }
 unset($extend_file);
 
+// ----- 테마 추가기능 불러오기 (확장)
+if(defined('G5_THEME_PATH')) {
+	$extend_file = array();
+	$tmp = dir(G5_THEME_PATH.'/'.G5_EXTEND_DIR);
+	while ($entry = $tmp->read()) {
+		// php 파일만 include 함
+		if (preg_match("/(\.php)$/i", $entry))
+			$extend_file[] = $entry;
+	}
+	if(!empty($extend_file) && is_array($extend_file)) {
+		natsort($extend_file);
+		foreach($extend_file as $file) {
+			include_once(G5_THEME_PATH.'/'.G5_EXTEND_DIR."/".$file);
+		}
+	}
+	unset($extend_file);
+}
+
 ob_start();
 
 // 자바스크립트에서 go(-1) 함수를 쓰면 폼값이 사라질때 해당 폼의 상단에 사용하면

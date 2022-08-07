@@ -20,36 +20,12 @@ if($item['sh_id']) {
 	if($item['it_content2']) { 
 		$item['it_content'] .= "<br />(".$item['it_content2'].")";
 	}
+}
+
+if(defined('G5_THEME_PATH') && is_file(G5_THEME_PATH."/shop/shop.item.skin.php")) {
+	include(G5_THEME_PATH."/shop/shop.item.skin.php");
+} else {
+	include(G5_PATH."/shop/skin/shop.item.skin.php");
+}
 
 ?>
-
-<div class="type-item theme-box">
-
-<div id="item_talk">
-	<div id="item_simple_viewer">
-		<div id="buy_item_data">
-			<div class="item-thumb">
-				<img src="<?=$item['it_img']?>" />
-			</div>
-			<div class="item-name"><?=$item['it_name']?> <sup><?=$money?></sup></div>
-			<div class="item-content"><?=$item['it_content']?></div>
-		</div>
-	</div>
-	<div class="item_talk"><?=$item['sh_content']?></div>
-	<br />
-</div>
-<? if($character['ch_id'] && $character['ch_state'] == '승인') { ?>
-<a href="javascript:fn_buy_item('<?=$item['sh_id']?>');" id="btn_buy" class="ui-btn full point">
-	구매하기
-</a>
-<? } ?>
-
-</div>
-
-<? } else { ?>
-<div id="default_talk">
-	<p>
-		오류가 발생했습니다. 다시 한번 선택해 주시길 바랍니다.
-	</p>
-</div>
-<? } ?>

@@ -65,6 +65,8 @@ $sql_common = " it_use			= '{$it_use}',
 				it_seeker_per_s =  '{$it_seeker_per_s}',
 				it_seeker_per_e =  '{$it_seeker_per_e}',
 
+				st_id	= '{$st_id}',
+
 				it_1	= '{$it_1}',
 				it_2	= '{$it_2}',
 				it_3	= '{$it_3}',

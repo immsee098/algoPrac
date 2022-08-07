@@ -904,7 +904,7 @@ CREATE TABLE IF NOT EXISTS `avo_menu` (
 --
 -- Table structure for table `avo_exp`
 --
-
+DROP TABLE IF EXISTS `avo_exp`;
 CREATE TABLE IF NOT EXISTS `avo_exp` (
   `ex_id` int(11) NOT NULL AUTO_INCREMENT,
   `ch_id` varchar(20) NOT NULL DEFAULT '',
@@ -921,7 +921,7 @@ CREATE TABLE IF NOT EXISTS `avo_exp` (
 --
 -- Table structure for table `avo_character`
 --
-
+DROP TABLE IF EXISTS `avo_character`;
 CREATE TABLE IF NOT EXISTS `avo_character` (
   `ch_id` int(11) NOT NULL AUTO_INCREMENT,
   `ch_name` varchar(255) NOT NULL DEFAULT '',
@@ -940,7 +940,7 @@ CREATE TABLE IF NOT EXISTS `avo_character` (
   `ch_search` int(11) NOT NULL DEFAULT '0',
   `ch_state` varchar(255) NOT NULL DEFAULT '',
   `ma_id` int(11) NOT NULL DEFAULT '0',
-  `ch_ma_id` int(11) NOT NULL DEFAULT '0',
+  `ch_order` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`ch_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 -- --------------------------------------------------------
@@ -948,7 +948,7 @@ CREATE TABLE IF NOT EXISTS `avo_character` (
 --
 -- Table structure for table `avo_character_class`
 --
-
+DROP TABLE IF EXISTS `avo_character_class`;
 CREATE TABLE IF NOT EXISTS `avo_character_class` (
   `cl_id` int(11) NOT NULL AUTO_INCREMENT,
   `cl_name` varchar(255) NOT NULL DEFAULT '',
@@ -963,7 +963,7 @@ CREATE TABLE IF NOT EXISTS `avo_character_class` (
 --
 -- 테이블 구조 `avo_character_side`
 --
-
+DROP TABLE IF EXISTS `avo_character_side`;
 CREATE TABLE IF NOT EXISTS `avo_character_side` (
   `si_id` int(11) NOT NULL AUTO_INCREMENT,
   `si_name` varchar(255) NOT NULL DEFAULT '',
@@ -977,7 +977,7 @@ CREATE TABLE IF NOT EXISTS `avo_character_side` (
 --
 -- 테이블 구조 `avo_character_closthes`
 --
-
+DROP TABLE IF EXISTS `avo_character_closthes`;
 CREATE TABLE IF NOT EXISTS `avo_character_closthes` (
   `cl_id` int(11) NOT NULL AUTO_INCREMENT,
   `ch_id` int(11) NOT NULL DEFAULT '0',
@@ -993,7 +993,7 @@ CREATE TABLE IF NOT EXISTS `avo_character_closthes` (
 --
 -- 테이블 구조 `avo_couple`
 --
-
+DROP TABLE IF EXISTS `avo_couple`;
 CREATE TABLE IF NOT EXISTS `avo_couple` (
   `co_id` int(11) NOT NULL AUTO_INCREMENT,
   `co_left` int(11) NOT NULL DEFAULT '0',
@@ -1008,7 +1008,7 @@ CREATE TABLE IF NOT EXISTS `avo_couple` (
 --
 -- 테이블 구조 `avo_emoticon`
 --
-
+DROP TABLE IF EXISTS `avo_emoticon`;
 CREATE TABLE IF NOT EXISTS `avo_emoticon` (
   `me_id` int(11) NOT NULL AUTO_INCREMENT,
   `me_text` varchar(255) NOT NULL DEFAULT '',
@@ -1020,7 +1020,7 @@ CREATE TABLE IF NOT EXISTS `avo_emoticon` (
 --
 -- 테이블 구조 `avo_inventory`
 --
-
+DROP TABLE IF EXISTS `avo_inventory`;
 CREATE TABLE IF NOT EXISTS `avo_inventory` (
   `in_id` int(11) NOT NULL AUTO_INCREMENT,
   `it_id` varchar(255) NOT NULL DEFAULT '',
@@ -1050,7 +1050,7 @@ CREATE TABLE IF NOT EXISTS `avo_inventory` (
 --
 -- 테이블 구조 `avo_item`
 --
-
+DROP TABLE IF EXISTS `avo_item`;
 CREATE TABLE IF NOT EXISTS `avo_item` (
   `it_id` int(11) NOT NULL DEFAULT '0',
   `it_name` varchar(255) NOT NULL DEFAULT '',
@@ -1073,6 +1073,7 @@ CREATE TABLE IF NOT EXISTS `avo_item` (
   `it_seeker` int(4) NOT NULL DEFAULT '0',
   `it_seeker_per_s` int(11) NOT NULL DEFAULT '0',
   `it_seeker_per_e` int(11) NOT NULL DEFAULT '0',
+  `st_id` int(11) NOT NULL DEFAULT '0',
   `it_1` varchar(255) NOT NULL DEFAULT '',
   `it_2` varchar(255) NOT NULL DEFAULT '',
   `it_3` varchar(255) NOT NULL DEFAULT '',
@@ -1087,7 +1088,7 @@ CREATE TABLE IF NOT EXISTS `avo_item` (
 --
 -- 테이블 구조 `avo_item_recepi`
 --
-
+DROP TABLE IF EXISTS `avo_item_recepi`;
 CREATE TABLE IF NOT EXISTS `avo_item_recepi` (
   `re_id` int(11) NOT NULL AUTO_INCREMENT,
   `re_item_order` varchar(255) NOT NULL DEFAULT '',
@@ -1104,7 +1105,7 @@ CREATE TABLE IF NOT EXISTS `avo_item_recepi` (
 --
 -- 테이블 구조 `avo_order`
 --
-
+DROP TABLE IF EXISTS `avo_order`;
 CREATE TABLE IF NOT EXISTS `avo_order` (
   `or_id` int(11) NOT NULL AUTO_INCREMENT,
   `ch_id` varchar(255) NOT NULL DEFAULT '',
@@ -1122,7 +1123,7 @@ CREATE TABLE IF NOT EXISTS `avo_order` (
 --
 -- 테이블 구조 `avo_relation_character`
 --
-
+DROP TABLE IF EXISTS `avo_relation_character`;
 CREATE TABLE IF NOT EXISTS `avo_relation_character` (
   `rm_id` int(11) NOT NULL AUTO_INCREMENT,
   `ch_id` int(11) NOT NULL DEFAULT '0',
@@ -1139,7 +1140,7 @@ CREATE TABLE IF NOT EXISTS `avo_relation_character` (
 --
 -- 테이블 구조 `avo_banner`
 --
-
+DROP TABLE IF EXISTS `avo_banner`;
 CREATE TABLE IF NOT EXISTS `avo_banner` (
   `bn_id` int(11) NOT NULL AUTO_INCREMENT,
   `bn_img` varchar(255) NOT NULL DEFAULT '',
@@ -1157,7 +1158,7 @@ CREATE TABLE IF NOT EXISTS `avo_banner` (
 --
 -- 테이블 구조 `avo_intro`
 --
-
+DROP TABLE IF EXISTS `avo_intro`;
 CREATE TABLE IF NOT EXISTS `avo_intro` (
   `bn_id` int(11) NOT NULL AUTO_INCREMENT,
   `bn_img` varchar(255) NOT NULL DEFAULT '',
@@ -1173,7 +1174,7 @@ CREATE TABLE IF NOT EXISTS `avo_intro` (
 --
 -- 테이블 구조 `avo_call_board`
 --
-
+DROP TABLE IF EXISTS `avo_call_board`;
 CREATE TABLE IF NOT EXISTS `avo_call_board` (
   `bc_id` int(11) NOT NULL AUTO_INCREMENT,
   `bo_table` varchar(255) NOT NULL DEFAULT '',
@@ -1192,7 +1193,7 @@ CREATE TABLE IF NOT EXISTS `avo_call_board` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 
-
+DROP TABLE IF EXISTS `avo_character_title`;
 CREATE TABLE IF NOT EXISTS `avo_character_title` (
   `ti_id` int(11) NOT NULL AUTO_INCREMENT,
   `ti_title` varchar(255) NOT NULL DEFAULT '',
@@ -1203,7 +1204,7 @@ CREATE TABLE IF NOT EXISTS `avo_character_title` (
   KEY `ti_id` (`ti_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
-
+DROP TABLE IF EXISTS `avo_has_title`;
 CREATE TABLE IF NOT EXISTS `avo_has_title` (
   `hi_id` int(11) NOT NULL AUTO_INCREMENT,
   `ti_id` int(11) NOT NULL DEFAULT '0',
@@ -1214,7 +1215,7 @@ CREATE TABLE IF NOT EXISTS `avo_has_title` (
   KEY `hi_id` (`hi_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
-
+DROP TABLE IF EXISTS `avo_css_config`;
 CREATE TABLE IF NOT EXISTS `avo_css_config` (
   `cs_id` int(11) NOT NULL AUTO_INCREMENT,
   `cs_name` varchar(255) NOT NULL DEFAULT '',
@@ -1234,9 +1235,10 @@ CREATE TABLE IF NOT EXISTS `avo_css_config` (
   KEY `cs_id` (`cs_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
-
+DROP TABLE IF EXISTS `avo_article`;
 CREATE TABLE IF NOT EXISTS `avo_article` (
   `ar_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `ar_theme` VARCHAR(255) NOT NULL DEFAULT '',
   `ar_code` VARCHAR(255) NOT NULL DEFAULT '',
   `ar_name` VARCHAR(255) NOT NULL DEFAULT '',
   `ar_type` VARCHAR(255) NOT NULL DEFAULT '',
@@ -1249,7 +1251,7 @@ CREATE TABLE IF NOT EXISTS `avo_article` (
   KEY `ar_id` (`ar_id`)
 ) ENGINE = MyISAM  DEFAULT CHARSET=utf8;
 
-
+DROP TABLE IF EXISTS `avo_article_default`;
 CREATE TABLE IF NOT EXISTS `avo_article_default` (
   `ad_id` INT(11) NOT NULL AUTO_INCREMENT ,
   `ad_use_thumb` INT(11) NOT NULL DEFAULT '0',
@@ -1278,10 +1280,11 @@ CREATE TABLE IF NOT EXISTS `avo_article_default` (
   KEY `ad_id` (`ad_id`)
 ) ENGINE = MyISAM  DEFAULT CHARSET=utf8;
 
-
+DROP TABLE IF EXISTS `avo_article_value`;
 CREATE TABLE IF NOT EXISTS `avo_article_value` (
   `av_id` INT(11) NOT NULL AUTO_INCREMENT ,
   `ch_id` INT(11) NOT NULL DEFAULT '0',
+  `ar_theme` VARCHAR(255) NOT NULL DEFAULT '',
   `ar_code` VARCHAR(255) NOT NULL DEFAULT '',
   `av_value` TEXT NOT NULL ,
   `av_1` VARCHAR(255) NOT NULL DEFAULT '',
@@ -1293,7 +1296,7 @@ CREATE TABLE IF NOT EXISTS `avo_article_value` (
   KEY `av_id` (`av_id`)
 ) ENGINE = MyISAM  DEFAULT CHARSET=utf8;
 
-
+DROP TABLE IF EXISTS `avo_level_setting`;
 CREATE TABLE IF NOT EXISTS `avo_level_setting` (
   `lv_id` INT(11) NOT NULL AUTO_INCREMENT ,
   `lv_name` VARCHAR(255) NOT NULL DEFAULT '',
@@ -1308,7 +1311,7 @@ CREATE TABLE IF NOT EXISTS `avo_level_setting` (
   KEY `lv_id` (`lv_id`)
 ) ENGINE = MyISAM  DEFAULT CHARSET=utf8;
 
-
+DROP TABLE IF EXISTS `avo_shop`;
 CREATE TABLE IF NOT EXISTS `avo_shop` (
   `sh_id` int(11) NOT NULL AUTO_INCREMENT ,
   `it_id` int(11) NOT NULL DEFAULT '0',
@@ -1341,7 +1344,7 @@ CREATE TABLE IF NOT EXISTS `avo_shop` (
   KEY `lv_id` (`sh_id`)
 ) ENGINE = MyISAM  DEFAULT CHARSET=utf8;
 
-
+DROP TABLE IF EXISTS `avo_item_explorer`;
 CREATE TABLE IF NOT EXISTS `avo_item_explorer` (
   `ie_id` int(11) NOT NULL AUTO_INCREMENT,
   `it_id` int(11) NOT NULL DEFAULT '0',
@@ -1358,6 +1361,7 @@ CREATE TABLE IF NOT EXISTS `avo_item_explorer` (
   KEY `lv_id` (`ie_id`)
 ) ENGINE = MyISAM  DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `avo_status`;
 CREATE TABLE IF NOT EXISTS `avo_status` (
   `st_id` int(11) NOT NULL AUTO_INCREMENT,
   `st_name`  varchar(255) NOT NULL DEFAULT '',
@@ -1370,6 +1374,7 @@ CREATE TABLE IF NOT EXISTS `avo_status` (
   KEY `lv_id` (`st_id`)
 ) ENGINE = MyISAM  DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `avo_status_character`;
 CREATE TABLE IF NOT EXISTS `avo_status_character` (
   `sc_id` int(11) NOT NULL AUTO_INCREMENT,
   `st_id` int(11) NOT NULL DEFAULT '0',

@@ -22,6 +22,9 @@ $sql = " select *
 			$sql_order
 			limit $from_record, $rows ";
 $result = sql_query($sql);
+
+$list = array();
+
 for ($i=0; $row=sql_fetch_array($result); $i++) {
 
 	$list[$i] = $row;

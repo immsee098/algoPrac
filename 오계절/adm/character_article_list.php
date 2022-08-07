@@ -26,7 +26,7 @@ $frm_submit = '<div class="btn_confirm01 btn_confirm">
 </div>';
 
 // 추가 항목에 대한 데이터들 가져오기
-$sql = " select * from {$g5['article_table']} order by ar_order asc";
+$sql = " select * from {$g5['article_table']} order by ar_theme asc, ar_order asc";
 $result = sql_query($sql);
 
 $g5['title'] = '프로필 양식 관리';
@@ -144,8 +144,20 @@ include_once ('./admin.head.php');
 
 	<div class="tbl_head01 tbl_wrap">
 		<table>
+			<colgroup>
+				<col style="width:100px;" />
+				<col style="width:120px;" />
+				<col style="width:120px;" />
+				<col style="width:120px;" />
+				<col style="width:100px;" />
+				<col style="width:120px;" />
+				<col />
+				<col style="width:100px;" />
+				<col style="width:100px;" />
+			</colgroup>
 			<thead>
 				<tr>
+					<th>테마</th>
 					<th>고유코드</th>
 					<th>항목명</th>
 					<th>항목타입</th>
@@ -160,14 +172,17 @@ include_once ('./admin.head.php');
 			<? for($i = 0; $ar = sql_fetch_array($result); $i++) { ?>
 				<tr>
 					<td>
+						<?php echo get_theme_select('theme_dir_'.$i, "ar_theme[$i]", $ar['ar_theme'], " class='full'"); ?>
+					</td>
+					<td>
 						<input type="hidden" name="ar_id[<?=$i?>]" value="<?=$ar['ar_id']?>" />
-						<input type="text" name="ar_code[<?=$i?>]" value="<?=$ar['ar_code']?>" />
+						<input type="text" name="ar_code[<?=$i?>]" value="<?=$ar['ar_code']?>" class="full" />
 					</td>
 					<td>
-						<input type="text" name="ar_name[<?=$i?>]" value="<?=$ar['ar_name']?>" />
+						<input type="text" name="ar_name[<?=$i?>]" value="<?=$ar['ar_name']?>" class="full" />
 					</td>
 					<td>
-						<select name="ar_type[<?=$i?>]">
+						<select name="ar_type[<?=$i?>]" class="full">
 							<option value="text"		<?=$ar['ar_type']=="text" ? "selected" : ""?>>한줄 텍스트</option>
 							<option value="textarea"	<?=$ar['ar_type']=="textarea" ? "selected" : ""?>>텍스트</option>
 							<option value="select"		<?=$ar['ar_type']=="select" ? "selected" : ""?>>단일선택</option>
@@ -179,16 +194,16 @@ include_once ('./admin.head.php');
 						<input type="text" name="ar_size[<?=$i?>]" value="<?=$ar['ar_size']?>" style="width: 50px;"/> px
 					</td>
 					<td>
-						<input type="text" name="ar_text[<?=$i?>]" value="<?=$ar['ar_text']?>" />
+						<input type="text" name="ar_text[<?=$i?>]" value="<?=$ar['ar_text']?>"  class="full"/>
 					</td>
 					<td>
-						<input type="text" name="ar_help[<?=$i?>]" value="<?=$ar['ar_help']?>" />
+						<input type="text" name="ar_help[<?=$i?>]" value="<?=$ar['ar_help']?>"  class="full"/>
 					</td>
 					<td>
-						<input type="text" name="ar_order[<?=$i?>]" value="<?=$ar['ar_order']?>" style="width: 50px;"/>
+						<input type="text" name="ar_order[<?=$i?>]" value="<?=$ar['ar_order']?>"  class="full"/>
 					</td>
 					<td>
-						<select name="ar_secret[<?=$i?>]">
+						<select name="ar_secret[<?=$i?>]" class="full">
 							<option value="">전체공개</option>
 							<option value="S" <?=$ar['ar_secret']=="S" ? "selected" : ""?>>오너+관리자 공개</option>
 							<option value="H" <?=$ar['ar_secret']=="H" ? "selected" : ""?>>관리자 공개</option>
@@ -199,7 +214,7 @@ include_once ('./admin.head.php');
 					
 			if($i==0){ ?>
 				<tr>
-					<td colspan="8" class="empty_table">등록된 항목이 없습니다.</td>
+					<td colspan="9" class="empty_table">등록된 항목이 없습니다.</td>
 				</tr>
 			<? } ?>
 			</tbody>
@@ -227,6 +242,13 @@ include_once ('./admin.head.php');
 				<col />
 			</colgroup>
 			<tbody>
+				<tr>
+					<th>테마</th>
+					<td>
+						<?php echo help("테마 전용 항목을 지정할 경우, 테마가 지정되지 않거나 다른 테마에서는 출력되지 않습니다.") ?>
+						<?php echo get_theme_select('theme_dir', "ar_theme", ''); ?>
+					</td>
+				</tr>
 				<tr>
 					<th>고유코드</th>
 					<td>

@@ -9,6 +9,7 @@ $ar_help = htmlspecialchars ($ar_help, ENT_QUOTES);
 
 $sql = " insert into {$g5['article_table']}
 			set ar_code = '$ar_code',
+				ar_theme = '$ar_theme',
 				ar_name = '$ar_name',
 				ar_type = '$ar_type',
 				ar_size = '$ar_size',

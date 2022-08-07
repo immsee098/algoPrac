@@ -7,6 +7,11 @@ unset($row);
 unset($row2);
 unset($character);
 unset($member);
+
+if(!defined('G5_IS_ADMIN') && defined('G5_THEME_PATH') && is_file(G5_THEME_PATH.'/tail.sub.php')) {
+	require_once(G5_THEME_PATH.'/tail.sub.php');
+	return;
+}
 ?>
 
 

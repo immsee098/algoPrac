@@ -51,11 +51,7 @@ if($is_member)  {
 			include "$board_skin_path/inc.list_main.php"; 
 			$lists[$ii]['datetime']=substr($lists[$ii]['wr_datetime'],0,4)."/".substr($lists[$ii]['wr_datetime'],5,2)."/".substr($lists[$ii]['wr_datetime'],8,2)." (".substr($lists[$ii]['wr_datetime'],11,8).")";
 
-			$is_open = false;
-
-			if(get_cookie('read_'.$lists[$ii]['wr_id']) == $lists[$ii]['wr_password']) { 
-				$is_open = true;
-			}
+			$is_open = check_password(get_cookie('read_'.$lists[$ii]['wr_id']), $lists[$ii]['wr_password']);
 
 			$lists[$ii]['content'] = conv_content($lists[$ii]['wr_content'], 0, 'wr_content');
 			$lists[$ii]['content'] = search_font($stx, $lists[$ii]['content']);
@@ -100,7 +96,7 @@ if($is_member)  {
 								?>
 								<fieldset class="ui-qna-list-password">
 									<input type="password" name="wr_password" id="wr_password_<?=$ii?>" value="" placeholder="PASSWORD"/>
-									<button type="submit" class="ui-submit">ENTER</button>
+									<button type="submit" class="ui-submit ui-btn">ENTER</button>
 								</fieldset>
 								<? } else { ?>
 								<? if(strstr($lists[$ii]['wr_option'], 'secret')) { ?>
