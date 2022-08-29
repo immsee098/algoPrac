@@ -18,6 +18,7 @@ if(!$is_member && !$config['cf_open']) {
 			$index_url = "./main.php";
 		} else {
 			// 사이트 오픈이 되어 있고, 로그인이 안되어 있을 경우
+			//상의 후 변경
 			if (G5_IS_MOBILE) {
                 include_once(G5_PATH.'/main.php');
 //				include_once(G5_PATH.'/enter.php');
